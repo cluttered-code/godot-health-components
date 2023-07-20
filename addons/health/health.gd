@@ -1,7 +1,5 @@
-@tool
 @icon("res://addons/health/Health.svg")
-class_name Health
-extends Node
+class_name Health extends Node
 
 
 signal died()
@@ -29,7 +27,7 @@ func is_full() -> bool:
 func percent() -> float:
 	if total <= 0.0:
 		return 0.0
-		
+
 	if is_full():
 		return 1.0
 
@@ -39,13 +37,13 @@ func percent() -> float:
 func damage(amount: float) -> void:
 	if is_dead():
 		return
-	
+
 	var adjusted_amount = min(current, amount)
-	print_debug("{0} - damaged for {1} of {2}".format([owner, adjusted_amount, amount]))
-	
 	current -= adjusted_amount
+	print_debug("{0} - damage amount={1} adjusted={2} current={3}".format([owner, amount, adjusted_amount, current]))
+
 	damaged.emit(amount, adjusted_amount)
-	
+
 	if is_dead():
 		died.emit()
 
@@ -54,12 +52,11 @@ func heal(amount: float) -> void:
 	if current == total:
 		return
 
-	var adjusted_amount = min(total - current, amount)
-	print_debug("{0} - healed for {1} of {2}".format([owner, adjusted_amount, amount]))
-
 	var was_revived = is_dead()
-
+	var adjusted_amount = min(total - current, amount)
 	current += adjusted_amount
+	print_debug("{0} - heal amount={1} adjusted={2} current={3}".format([owner, amount, adjusted_amount, current]))
+
 	healed.emit(amount, adjusted_amount)
 
 	if was_revived:
