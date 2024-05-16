@@ -10,6 +10,7 @@ config_version=5
 
 [application]
 
-config/name="GodotComponents"
-config/features=PackedStringArray("4.1", "Forward Plus")
-config/icon="res://icon.svg"
+config/name="HealthComponents"
+config/version="1.0.0"
+config/features=PackedStringArray("4.2", "Forward Plus")
+config/icon="res://addon_icon.png"

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfrwpegxitaiq"
-path="res://.godot/imported/Health.svg-2e837ce31c96b25f478fb27445741555.ctex"
+uid="uid://c6qfum03rylv0"
+path="res://.godot/imported/health_rate.svg-ed06f50d6a6131dfe75fe707f1f87185.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/health/Health.svg"
-dest_files=["res://.godot/imported/Health.svg-2e837ce31c96b25f478fb27445741555.ctex"]
+source_file="res://addons/health_components/health/health_rate.svg"
+dest_files=["res://.godot/imported/health_rate.svg-ed06f50d6a6131dfe75fe707f1f87185.ctex"]
 
 [params]
 

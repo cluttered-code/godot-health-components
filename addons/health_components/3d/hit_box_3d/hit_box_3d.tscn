@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cpvegetnu6t6n"]
+
+[ext_resource type="Script" path="res://addons/health_components/3d/hit_box_3d/hit_box_3d.gd" id="1_g5ert"]
+
+[node name="HitBox3D" type="Area3D"]
+script = ExtResource("1_g5ert")
