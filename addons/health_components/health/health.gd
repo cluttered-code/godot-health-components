@@ -1,4 +1,3 @@
-@icon("./health_rate.svg")
 class_name Health extends Node
 
 signal damaged(owner: Node, amount: int)
@@ -7,10 +6,8 @@ signal healed(owner: Node, amount: int)
 signal died(owner: Node)
 signal revived(owner: Node)
 
-
+@export var current: int = 100
 @export var max: int = 100
-
-@onready var current := max
 
 
 ## returns "true" when current health is greater than 0, otherwise "false".

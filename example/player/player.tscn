@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://l7q3g1b102a7"]
+
+[ext_resource type="Script" path="res://example/player/player.gd" id="1_yff8e"]
+[ext_resource type="Script" path="res://addons/health_components/health/health.gd" id="2_n5v70"]
+[ext_resource type="Script" path="res://addons/health_components/2d/hurt_box_2d/hurt_box_2d.gd" id="3_8gslm"]
+[ext_resource type="Texture2D" uid="uid://bj1vycvsrai1f" path="res://example/player/player.png" id="3_dkssk"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xqfh2"]
+radius = 8.0
+height = 18.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n3kc1"]
+radius = 7.0
+height = 14.0
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_yff8e")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("2_n5v70")
+current = 10
+max = 20
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -8)
+texture = ExtResource("3_dkssk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("CapsuleShape2D_xqfh2")
+
+[node name="HurtBox2D" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+script = ExtResource("3_8gslm")
+health = NodePath("../Health")
+
+[node name="HurtCollisionShape2D" type="CollisionShape2D" parent="HurtBox2D"]
+position = Vector2(0, -7)
+shape = SubResource("CapsuleShape2D_n3kc1")
+debug_color = Color(0.955109, 0.188514, 0.258753, 0.42)

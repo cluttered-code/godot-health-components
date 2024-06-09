@@ -1,4 +1,3 @@
-@icon("./hit_box_2d.svg")
 class_name HitBox2D extends Area2D
 
 enum Action {DAMAGE, HEAL}

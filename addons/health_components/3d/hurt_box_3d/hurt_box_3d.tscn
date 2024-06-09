@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dvo75vh13fe5q"]
-
-[ext_resource type="Script" path="res://addons/health_components/3d/hurt_box_3d/hurt_box_3d.gd" id="1_d7hs8"]
-
-[node name="HurtBox3D" type="Area3D"]
-script = ExtResource("1_d7hs8")

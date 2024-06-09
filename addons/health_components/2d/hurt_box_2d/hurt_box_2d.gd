@@ -1,5 +1,4 @@
 @tool
-@icon("./hurt_box_2d.svg")
 class_name HurtBox2D extends Area2D
 
 @export var health: Health
