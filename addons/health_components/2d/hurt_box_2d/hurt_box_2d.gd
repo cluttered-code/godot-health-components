@@ -1,17 +1,21 @@
 @tool
 class_name HurtBox2D extends Area2D
 
-@export var health: Health
+@export var health: Health = null:
+	set(new_health):
+		health = new_health
+		if Engine.is_editor_hint():
+			update_configuration_warnings()
 
 func _ready() -> void:
 	area_entered.connect(_on_area_entered)
 
 
 func _on_area_entered(area: Area2D) -> void:
-	var hitbox := area as HitBox2D
-	if not hitbox:
+	if area is not HitBox2D:
 		return
 	
+	var hitbox := area as HitBox2D
 	match hitbox.Action:
 		HitBox2D.Action.DAMAGE:
 			health.damage(hitbox.amount)
@@ -22,7 +26,7 @@ func _on_area_entered(area: Area2D) -> void:
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings := PackedStringArray()
 	
-	if not health:
+	if health is not Health:
 		warnings.append("This node requires a 'Health' component")
 	
 	return warnings

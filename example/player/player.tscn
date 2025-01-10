@@ -1,16 +1,22 @@
-[gd_scene load_steps=7 format=3 uid="uid://l7q3g1b102a7"]
+[gd_scene load_steps=9 format=3 uid="uid://l7q3g1b102a7"]
 
 [ext_resource type="Script" path="res://example/player/player.gd" id="1_yff8e"]
 [ext_resource type="Script" path="res://addons/health_components/health/health.gd" id="2_n5v70"]
 [ext_resource type="Script" path="res://addons/health_components/2d/hurt_box_2d/hurt_box_2d.gd" id="3_8gslm"]
 [ext_resource type="Texture2D" uid="uid://bj1vycvsrai1f" path="res://example/player/player.png" id="3_dkssk"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n21ov"]
+bg_color = Color(0.909804, 0.270588, 0.215686, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q78yh"]
+bg_color = Color(0.145098, 0.584314, 0.415686, 1)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xqfh2"]
-radius = 8.0
-height = 18.0
+radius = 6.0
+height = 16.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n3kc1"]
-radius = 7.0
+radius = 4.0
 height = 14.0
 
 [node name="Player" type="CharacterBody2D"]
@@ -21,13 +27,27 @@ script = ExtResource("2_n5v70")
 current = 10
 max = 20
 
+[node name="HealthBar" type="ProgressBar" parent="."]
+light_mask = 0
+custom_minimum_size = Vector2(32, 6)
+offset_left = -16.0
+offset_top = -24.0
+offset_right = 16.0
+offset_bottom = -18.0
+pivot_offset = Vector2(16, 3)
+theme_override_styles/background = SubResource("StyleBoxFlat_n21ov")
+theme_override_styles/fill = SubResource("StyleBoxFlat_q78yh")
+max_value = 1.0
+value = 0.7
+show_percentage = false
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(0, -8)
 texture = ExtResource("3_dkssk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -7)
+position = Vector2(0, -8)
 shape = SubResource("CapsuleShape2D_xqfh2")
 
 [node name="HurtBox2D" type="Area2D" parent="." node_paths=PackedStringArray("health")]

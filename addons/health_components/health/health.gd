@@ -1,7 +1,10 @@
 class_name Health extends Node
 
+
 signal damaged(owner: Node, amount: int)
 signal healed(owner: Node, amount: int)
+
+signal changed(owner: Node)
 
 signal died(owner: Node)
 signal revived(owner: Node)
@@ -27,7 +30,7 @@ func is_full() -> bool:
 
 ## returns the percent of current to maximum health.
 func percent() -> float:
-	return minf(float(current) / float(max), 0.0)
+	return minf(float(current) / float(max), 1.0)
 
 
 ## apply the specified amount of damage.
@@ -39,6 +42,7 @@ func damage(amount: int) -> void:
 	current -= amount
 	print_debug("{0} - damaged amount={1} current={2}".format([owner, amount, current]))
 	damaged.emit(owner, amount)
+	changed.emit(owner)
 
 	if is_dead():
 		died.emit(owner)
@@ -55,6 +59,7 @@ func heal(amount: int) -> void:
 	current += amount
 	print_debug("{0} - healed amount={1} current={2}".format([owner, amount, current]))
 	healed.emit(owner, amount)
+	changed.emit(owner)
 
 	if was_revived:
 		revived.emit(owner)

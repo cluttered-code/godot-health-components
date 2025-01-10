@@ -12,7 +12,8 @@ config_version=5
 
 config/name="HealthComponents"
 config/version="1.0.0"
-config/features=PackedStringArray("4.2", "Forward Plus")
+run/main_scene="res://example/player/player.tscn"
+config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://images/addon_icon.png"
 
 [editor_plugins]
