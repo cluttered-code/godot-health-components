@@ -15,6 +15,10 @@ func _on_area_entered(area: Area3D) -> void:
 	if area is not HitBox3D:
 		return
 	
+	if not health:
+		print_debug("{0} is missing 'Health' component".format([self]))
+		return
+	
 	var hitbox := area as HitBox3D
 	match hitbox.Action:
 		HitBox3D.Action.DAMAGE:
