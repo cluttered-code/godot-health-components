@@ -7,6 +7,7 @@ class_name HurtBox2D extends Area2D
 		if Engine.is_editor_hint():
 			update_configuration_warnings()
 
+
 func _ready() -> void:
 	area_entered.connect(_on_area_entered)
 
@@ -20,7 +21,7 @@ func _on_area_entered(area: Area2D) -> void:
 		return
 	
 	var hitbox := area as HitBox2D
-	match hitbox.Action:
+	match hitbox.action:
 		HitBox2D.Action.DAMAGE:
 			health.damage(hitbox.amount)
 		HitBox2D.Action.HEAL:
@@ -34,3 +35,7 @@ func _get_configuration_warnings() -> PackedStringArray:
 		warnings.append("This node requires a 'Health' component")
 	
 	return warnings
+
+
+## Returns the object's class name as a [String].
+func get_class_name() -> String: return "HurtBox2D"

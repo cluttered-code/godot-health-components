@@ -12,9 +12,16 @@ config_version=5
 
 config/name="HealthComponents"
 config/version="1.0.0"
-run/main_scene="res://example/player/player.tscn"
+run/main_scene="res://example/main.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://images/addon_icon.png"
+
+[display]
+
+window/size/viewport_width=512
+window/size/viewport_height=256
+window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
 
 [editor_plugins]
 

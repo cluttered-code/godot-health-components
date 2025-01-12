@@ -1,0 +1,93 @@
+[gd_scene load_steps=6 format=3 uid="uid://dnbgq63rhbp38"]
+
+[ext_resource type="PackedScene" uid="uid://l7q3g1b102a7" path="res://example/player/player.tscn" id="1_plffl"]
+[ext_resource type="Script" path="res://example/main.gd" id="1_qd6oa"]
+[ext_resource type="Script" path="res://addons/health_components/2d/hit_box_2d/hit_box_2d.gd" id="2_iiaj5"]
+
+[sub_resource type="Theme" id="Theme_pjoij"]
+Label/colors/font_color = Color(1, 0.654902, 0.109804, 1)
+Label/font_sizes/font_size = 20
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_20mwd"]
+radius = 40.0
+
+[node name="Main" type="Node"]
+script = ExtResource("1_qd6oa")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_right = 250.0
+offset_bottom = 66.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Damageable" type="CheckButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+text = "Damageable"
+
+[node name="Healable" type="CheckButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+text = "Healable"
+
+[node name="Killable" type="CheckButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+text = "Killable"
+
+[node name="Revivable" type="CheckButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+text = "Revivable
+"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="Damage" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Damage"
+
+[node name="Heal" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Heal"
+
+[node name="Status" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme = SubResource("Theme_pjoij")
+text = "Alive"
+
+[node name="HitBox2D" type="Area2D" parent="."]
+position = Vector2(168, 202)
+monitoring = false
+script = ExtResource("2_iiaj5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox2D"]
+position = Vector2(89, -18)
+shape = SubResource("CircleShape2D_20mwd")
+debug_color = Color(0.952941, 0.117647, 0.701961, 0.419608)
+
+[node name="Player" parent="." instance=ExtResource("1_plffl")]
+position = Vector2(257, 212)
+scale = Vector2(4, 4)

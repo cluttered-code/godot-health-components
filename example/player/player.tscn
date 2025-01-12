@@ -24,8 +24,7 @@ script = ExtResource("1_yff8e")
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("2_n5v70")
-current = 10
-max = 20
+current = 50
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 light_mask = 0
@@ -38,7 +37,7 @@ pivot_offset = Vector2(16, 3)
 theme_override_styles/background = SubResource("StyleBoxFlat_n21ov")
 theme_override_styles/fill = SubResource("StyleBoxFlat_q78yh")
 max_value = 1.0
-value = 0.7
+value = 1.0
 show_percentage = false
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
