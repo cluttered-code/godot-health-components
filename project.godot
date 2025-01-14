@@ -26,3 +26,8 @@ window/stretch/scale_mode="integer"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/health_components/plugin.cfg")
+
+[layer_names]
+
+2d_physics/layer_1="Walls"
+2d_physics/layer_2="Weapons"

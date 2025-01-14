@@ -37,7 +37,7 @@ func is_dead() -> bool:
 	return not is_alive()
 
 
-## Return [color=orange]true[/color] when current health is max, otherwise "false".
+## Return [color=orange]true[/color] when current health is max.
 func is_full() -> bool:
 	return current == max
 
@@ -92,4 +92,4 @@ func heal(amount: int) -> void:
 
 
 ## Returns the object's class name as a [String].
-func get_class_name() -> String: return "Health"
+func get_class() -> String: return "Health"
