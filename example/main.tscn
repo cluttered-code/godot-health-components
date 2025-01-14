@@ -81,7 +81,7 @@ size_flags_horizontal = 4
 [node name="DamageMultiplier" type="SpinBox" parent="MarginContainer/VBoxContainer2/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
-min_value = -3.0
+min_value = -1.0
 max_value = 3.0
 step = 0.1
 value = 1.0
@@ -108,7 +108,7 @@ size_flags_vertical = 8
 [node name="HealMultiplier" type="SpinBox" parent="MarginContainer/VBoxContainer2/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-min_value = -3.0
+min_value = -1.0
 max_value = 3.0
 step = 0.1
 value = 1.0

@@ -22,7 +22,7 @@ func _ready() -> void:
 ## Calculates and applies damage to associated [Health].
 func damage(amount: int) -> void:
 	if not health:
-		print_debug("{0} is missing a 'Health' component".format([self]))
+		push_error("%s is missing a 'Health' component" % self)
 		return
 	
 	health.damage(roundi(amount * damage_multiplier))
@@ -31,7 +31,7 @@ func damage(amount: int) -> void:
 ## Calculates and applies healing to associated [Health].
 func heal(amount: int) -> void:
 	if not health:
-		print_debug("{0} is missing a 'Health' component".format([self]))
+		push_error("%s is missing a 'Health' component" % self)
 		return
 	
 	health.heal(roundi(amount * heal_multiplier))
