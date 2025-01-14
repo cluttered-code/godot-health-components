@@ -37,24 +37,28 @@ size_flags_vertical = 0
 [node name="Damageable" type="CheckButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 button_pressed = true
 text = "Damageable"
 
 [node name="Healable" type="CheckButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 button_pressed = true
 text = "Healable"
 
 [node name="Killable" type="CheckButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 button_pressed = true
 text = "Killable"
 
 [node name="Revivable" type="CheckButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 button_pressed = true
 text = "Revivable
 "
@@ -66,19 +70,61 @@ size_flags_horizontal = 4
 theme = SubResource("Theme_pjoij")
 text = "Alive"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="DamageMultiplier" type="SpinBox" parent="MarginContainer/VBoxContainer2/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = -3.0
+max_value = 3.0
+step = 0.1
+value = 1.0
+suffix = "x"
+
+[node name="DamageAmount" type="SpinBox" parent="MarginContainer/VBoxContainer2/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+max_value = 20.0
+value = 10.0
+
+[node name="Damage" type="Button" parent="MarginContainer/VBoxContainer2/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Damage"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 
-[node name="Damage" type="Button" parent="MarginContainer/HBoxContainer"]
+[node name="HealMultiplier" type="SpinBox" parent="MarginContainer/VBoxContainer2/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Damage"
+min_value = -3.0
+max_value = 3.0
+step = 0.1
+value = 1.0
+suffix = "x"
 
-[node name="Heal" type="Button" parent="MarginContainer/HBoxContainer"]
+[node name="HealAmount" type="SpinBox" parent="MarginContainer/VBoxContainer2/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+min_value = 1.0
+max_value = 10.0
+value = 5.0
+
+[node name="Heal" type="Button" parent="MarginContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Heal"
 
 [node name="HitBox2D" type="Area2D" parent="."]
