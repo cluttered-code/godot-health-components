@@ -3,15 +3,16 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://diu1fttubkvuv"
-path="res://.godot/imported/health.svg-9796362c3e4f5df066aea43630580b5f.ctex"
+path="res://.godot/imported/health.svg-38b8dcaf4b974319ed410dae73e766f5.ctex"
 metadata={
+"has_editor_variant": true,
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/health_components/health/health.svg"
-dest_files=["res://.godot/imported/health.svg-9796362c3e4f5df066aea43630580b5f.ctex"]
+source_file="res://addons/health_hitbox_hurtbox/health/health.svg"
+dest_files=["res://.godot/imported/health.svg-38b8dcaf4b974319ed410dae73e766f5.ctex"]
 
 [params]
 

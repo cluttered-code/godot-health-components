@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cyruf70duruso"
-path="res://.godot/imported/hurt_box_3d.svg-eb2ddec0dc3da476fe666e791416d2f4.ctex"
+path="res://.godot/imported/hurt_box_3d.svg-1a2f57403b3043a3debd4eaa657e18b5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/health_components/3d/hurt_box_3d/hurt_box_3d.svg"
-dest_files=["res://.godot/imported/hurt_box_3d.svg-eb2ddec0dc3da476fe666e791416d2f4.ctex"]
+source_file="res://addons/health_hitbox_hurtbox/3d/hurt_box_3d/hurt_box_3d.svg"
+dest_files=["res://.godot/imported/hurt_box_3d.svg-1a2f57403b3043a3debd4eaa657e18b5.ctex"]
 
 [params]
 
