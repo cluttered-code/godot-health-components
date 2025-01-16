@@ -1,1 +1,1 @@
-addons/health_components/README.md
+./addons/health_hitbox_hurtbox/README.md
