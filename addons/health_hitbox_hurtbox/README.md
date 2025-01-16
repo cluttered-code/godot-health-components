@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/cluttered-code/godot-health-components/refs/heads/main/addons/health_components/health/health.svg" width="24" height="24" />  Godot Health, HitBoxes, and HurtBoxes
+# <img src="https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/addons/health_hitbox_hurtbox/health/health.svg" width="24" height="24" />  Godot Health, HitBoxes, and HurtBoxes
 
 [![Godot](https://img.shields.io/badge/Godot-4.3%2b-blue?logo=godot-engine)](https://godotengine.org/download)
 [![LICENSE](https://img.shields.io/badge/license-MIT-blue)](https://github.com/cluttered-code/godot-health-components/blob/main/addons/health_components/LICENSE)
@@ -14,6 +14,8 @@
 5. Find the `Health, HitBoxes, and HurtBoxes` plugin in the list and check the box to enable it.
 
 ## Usage
+
+![Player Structure](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/images/character_structure.png "CharacterBody2D Structure")
 
 1. Add a `Health` node to a Node that needs health (ie. `CharacterBody2D` or `StaticBody3D`)
 2. Add a `HurtBox2D` node with a `CollisionShape2D` to the same Node.
