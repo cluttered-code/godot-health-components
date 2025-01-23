@@ -3,11 +3,21 @@ class_name Health extends Node
 
 ## Emitted after damage is applied.
 signal damaged(owner: Node, amount: int, applied: int)
+## Emitted when damaged and entity had full health.
+signal first_hit(owner: Node)
+## Emitted when trying to damage and entity is not damageable.
+signal not_damageable(owner: Node)
+## Emitted when damaging and current health is already zero.
+signal already_dead(owner: Node)
 ## Emitted after damage is applied when death has occured.
 signal died(owner: Node)
 
 ## Emitted after healing is applied.
 signal healed(owner: Node, amount: int, applied: int)
+## Emitted when trying to heal and entity is not healable.
+signal not_healable(owner: Node)
+## Emitted when healing and current health is already full.
+signal already_full(owner: Node)
 ## Emitted after healing is applied when dead.
 signal revived(owner: Node)
 
@@ -51,16 +61,22 @@ func percent() -> float:
 func damage(amount: int) -> void:
 	if not damageable:
 		print_debug("%s cannot be damaged" % owner)
+		not_damageable.emit(owner)
 		return
 	
 	if is_dead():
 		print_debug("%s is already dead" % owner)
+		already_dead.emit(owner)
 		return
 	
 	var applied := clampi(amount, 0, current)
+	var is_first_hit := is_full() and applied > 0
 	current -= applied
 	print_debug("%s damaged amount=%d applied=%d current=%d" % [owner, amount, applied, current])
 	damaged.emit(owner, amount, applied)
+	if is_first_hit:
+		print_debug("%s first hit" % owner)
+		first_hit.emit(owner)
 	
 	if is_dead():
 		print_debug("%s died" % owner)
@@ -71,10 +87,12 @@ func damage(amount: int) -> void:
 func heal(amount: int) -> void:
 	if not healable:
 		print_debug("%s is not healable" % owner)
+		not_healable.emit(owner)
 		return
 	
 	if is_full():
 		print_debug("%s already has full health" % owner)
+		already_full.emit(owner)
 		return
 	
 	if is_dead() and not revivable:
