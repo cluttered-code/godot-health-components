@@ -3,23 +3,31 @@ class_name Health extends Node
 
 ## Emitted after damage is applied.
 signal damaged(owner: Node, amount: int, applied: int)
-## Emitted when damaged and entity had full health.
-signal first_hit(owner: Node)
-## Emitted when trying to damage and entity is not damageable.
-signal not_damageable(owner: Node)
-## Emitted when damaging and current health is already zero.
-signal already_dead(owner: Node)
 ## Emitted after damage is applied when death has occured.
 signal died(owner: Node)
 
 ## Emitted after healing is applied.
 signal healed(owner: Node, amount: int, applied: int)
+## Emitted after healing is applied when dead.
+signal revived(owner: Node)
+
+
+## Emitted when damaged and entity had full health.
+signal first_hit(owner: Node)
+## Emitted when trying to damage an entity that is not damageable.
+signal not_damageable(owner: Node)
+## Emitted when damaging and current health is already zero.
+signal already_dead(owner: Node)
+## Emitted when trying to apply enough damage to an enemy to kill them and they cannot be.
+signal not_killable(owner: Node)
+
+
 ## Emitted when trying to heal and entity is not healable.
 signal not_healable(owner: Node)
 ## Emitted when healing and current health is already full.
 signal already_full(owner: Node)
-## Emitted after healing is applied when dead.
-signal revived(owner: Node)
+## Emitted when trying to heal a dead entity that is not revivable
+signal not_revivable(owner: Node)
 
 ## The current amount of health.
 @export var current: int = 100
@@ -37,9 +45,9 @@ signal revived(owner: Node)
 @export var revivable: bool = true
 
 
-## Returns [color=orange]true[/color] when not killable or current health is greater than 0.
+## Returns [color=orange]true[/color] when current health is greater than 0.
 func is_alive() -> bool:
-	return not killable or current > 0
+	return current > 0
 
 
 ## Returns [color=orange]true[/color] when not alive.
@@ -70,6 +78,12 @@ func damage(amount: int) -> void:
 		return
 	
 	var applied := clampi(amount, 0, current)
+
+	if applied == current and not killable:
+		print_debug("%s is not killable" % owner)
+		not_killable.emit(owner)
+		return
+
 	var is_first_hit := is_full() and applied > 0
 	current -= applied
 	print_debug("%s damaged amount=%d applied=%d current=%d" % [owner, amount, applied, current])
@@ -80,7 +94,7 @@ func damage(amount: int) -> void:
 	
 	if is_dead():
 		print_debug("%s died" % owner)
-		died.emit.call_deferred(owner)
+		died.emit(owner)
 
 
 ## apply the specified amount of healing if healable, not full, or dead and revivable.
@@ -97,6 +111,7 @@ func heal(amount: int) -> void:
 	
 	if is_dead() and not revivable:
 		print_debug("%s cannot be revived" % owner)
+		not_revivable.emit(owner)
 		return
 	
 	var notify_revived := is_dead() and amount > 0
@@ -108,7 +123,7 @@ func heal(amount: int) -> void:
 	
 	if notify_revived:
 		print_debug("%s revived" % owner)
-		revived.emit.call_deferred(owner)
+		revived.emit(owner)
 
 
 ## Returns the object's class name as a [String].
