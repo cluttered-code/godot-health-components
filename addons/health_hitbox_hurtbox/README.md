@@ -67,7 +67,7 @@ signal died(owner: Node)
 ---
 
 <details>
-<summary><code>revived</code> emitted when healed </summary>
+<summary><code>revived</code> emitted when healing applied and health was zero</summary>
 
 #### Parameters
 >| Name  | Type | Description |
