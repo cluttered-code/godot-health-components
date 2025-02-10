@@ -1,3 +1,4 @@
+@icon("res://addons/health_hitbox_hurtbox/3d/hit_box_3d/hit_box_3d.svg")
 class_name HitBox3D extends Area3D
 ## HitBox3D is associated with an object that can collide with a [HurtBox3D].
 

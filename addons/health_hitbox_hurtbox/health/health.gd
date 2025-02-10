@@ -1,3 +1,4 @@
+@icon("res://addons/health_hitbox_hurtbox/health/health.svg")
 class_name Health extends Node
 ## Health is used to track the owner's health, death, and revival.
 
@@ -34,7 +35,7 @@ signal not_revivable(owner: Node)
 ## The maximum amount of health.
 @export var max: int = 100
 
-@export_category("Conditions")
+@export_group("Conditions")
 ## Enable if owner is capable of taking damage.
 @export var damageable: bool = true
 ## Enable if owner is capable of being healed.

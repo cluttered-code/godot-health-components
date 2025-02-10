@@ -1,4 +1,5 @@
 @tool
+@icon("res://addons/health_hitbox_hurtbox/2d/hurt_box_2d/hurt_box_2d.svg")
 class_name HurtBox2D extends Area2D
 ## HurtBox2D detectes collisions with [HitBox2D] and applies affects to [Health].
 
