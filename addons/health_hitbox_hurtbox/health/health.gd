@@ -30,10 +30,12 @@ signal already_full(owner: Node)
 ## Emitted when trying to heal a dead entity that is not revivable
 signal not_revivable(owner: Node)
 
+const DEFAULT_MAX = 100
+
 ## The current amount of health.
-@export var current: int = 100
+@export var current: int = DEFAULT_MAX
 ## The maximum amount of health.
-@export var max: int = 100
+@export var max: int = DEFAULT_MAX
 
 @export_group("Conditions")
 ## Enable if owner is capable of taking damage.
@@ -63,7 +65,7 @@ func is_full() -> bool:
 
 ## Returns the percent of current to maximum health.
 func percent() -> float:
-	return minf(float(current) / float(max), 1.0)
+	return clampf(float(current) / float(max), 0.0, 1.0)
 
 
 ## Apply the specified amount of damage if damageable and not dead.
