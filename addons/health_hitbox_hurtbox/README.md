@@ -7,6 +7,8 @@
 
 ![Health](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/addons/health_hitbox_hurtbox/health/health.svg) `Health` component tracks an entity's health and emits signals for various health realted changes.
 
+![Health inspector](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/images/health_inspector.png "Health Inspector")
+
 ### Signals
 
 #### Primary
@@ -212,9 +214,13 @@ signal not_revivable(owner: Node)
 
 ![Hurtbox2D](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/addons/health_hitbox_hurtbox/2d/hurt_box_2d/hurt_box_2d.svg) `Hurtbox2D` or ![Hurtbox3D](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/addons/health_hitbox_hurtbox/3d/hurt_box_3d/hurt_box_3d.svg) `HurtBox3D` component requires a `Collision Shape` and is assigned a ![Health](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/addons/health_hitbox_hurtbox/health/health.svg) `Health` component to automatically apply damage and healing.
 
+![HurtBox2D Inspector](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/images/hurtbox_inspector.png "HurtBox2D Inspector")
+
 ## Hitbox
 
 ![Hitbox2D](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/addons/health_hitbox_hurtbox/2d/hit_box_2d/hit_box_2d.svg) `Hitbox2D` or ![Hitbox3D](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/addons/health_hitbox_hurtbox/3d/hit_box_3d/hit_box_3d.svg) `HitBox3D` component requires a `Collision Shape` to interact with ![Hurtbox2D](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/addons/health_hitbox_hurtbox/2d/hurt_box_2d/hurt_box_2d.svg) `Hurtbox2D` or ![Hurtbox3D](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/addons/health_hitbox_hurtbox/3d/hurt_box_3d/hurt_box_3d.svg) `HurtBox3D` to apply `DAMAGE` or `HEAL` depending on type.
+
+![HitBox2D Inspector](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/images/hitbox_inspector.png "HitBox2D Inspector")
 
 ## Installation
 

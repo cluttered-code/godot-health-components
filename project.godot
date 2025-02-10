@@ -26,7 +26,7 @@ window/stretch/scale_mode="integer"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/health_components/plugin.cfg")
+enabled=PackedStringArray("res://addons/health_hitbox_hurtbox/plugin.cfg")
 
 [layer_names]
 
