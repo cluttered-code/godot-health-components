@@ -1,0 +1,62 @@
+name: ci-pr-example
+run-name: ${{ github.head_ref || github.ref_name }}-ci-pr-example
+
+on:
+  push:
+    branches:
+      - "main"
+    paths-ignore:
+      - "**.jpg"
+      - "**.png"
+      - "**.svg"
+      - "**.md"
+      - "**plugin.cfg"
+  pull_request:
+    paths-ignore:
+      - "**.jpg"
+      - "**.png"
+      - "**.svg"
+      - "**.md"
+      - "**plugin.cfg"
+  workflow_dispatch:
+
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+
+jobs:
+  unit-test:
+    name: "🤖 CI on Godot ${{ matrix.godot-version }}"
+    runs-on: 'ubuntu-latest'
+    timeout-minutes: 10 # The overall timeout
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
+    
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        godot-version: ["4.3"]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Run GDUnit4 tests
+        uses: MikeSchulze/gdUnit4-action@v1.0.2
+        with:
+          godot-version: ${{ matrix.godot-version }}
+          godot-status: "stable"
+          paths: |
+            res://tests/
+          version: "installed"
+          timeout: 5
+          report-name: report_Godot${{ matrix.godot-version }}_unit-tests.xml

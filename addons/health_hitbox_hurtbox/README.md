@@ -2,6 +2,8 @@
 
 [![Godot](https://img.shields.io/badge/Godot-4.3%2b-blue?logo=godot-engine)](https://godotengine.org/download)
 [![LICENSE](https://img.shields.io/badge/license-MIT-blue)](https://github.com/cluttered-code/godot-health-components/blob/main/addons/health_components/LICENSE)
+[![Current Release](https://img.shields.io/github/release/cluttered-code/godot-health-hitbox-hurtbox.svg "Current Release")](https://github.com/cluttered-code/godot-health-hitbox-hurtbox/releases/latest)
+<!-- [![Downloads](https://img.shields.io/github/downloads/cluttered-code/godot-health-hitbox-hurtbox/total.svg "Downloads")](https://github.com/cluttered-code/godot-health-hitbox-hurtbox/releases) -->
 
 ## Health
 
