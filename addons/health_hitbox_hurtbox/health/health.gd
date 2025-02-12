@@ -26,6 +26,8 @@ signal not_killable(entity: Node)
 
 ## Emitted when trying to heal and entity is not healable.
 signal not_healable(entity: Node)
+## Emitted when enity is healed and health is now full.
+signal full(entity: Node)
 ## Emitted when healing and current health is already full.
 signal already_full(entity: Node)
 ## Emitted when trying to heal a dead entity that is not revivable
@@ -46,7 +48,6 @@ const DEFAULT_MAX = 100
 	set(new_max):
 		var old_max = max
 		max = maxi(new_max, 1)
-		
 		# after max is set or current will clamp worng
 		if Engine.is_editor_hint() and current == old_max:
 			# keep full health in editor if it was before
@@ -68,9 +69,19 @@ const DEFAULT_MAX = 100
 
 
 @export_group("Advanced")
-## The entity sent in callback signals for association.
-## defaults to [color=orange]get_parent()[/color]
-@export var entity: Node = get_parent()
+## The entity sent in signals for association.[br][br]
+## Defaults to [color=orange]get_parent()[/color] inside [color=orange]_enter_tree()[/color]
+## if not specified.[br][br]
+## [color=orange]It is not advised to reparent a Health Node! Create a new one instead.[/color][br]
+## When reparenting set [color=orange]entity = null[/color] before it enters the tree again to
+## automatically assign the new parent. This can be manually set at anytime.
+@export var entity: Node
+
+
+func _enter_tree() -> void:
+	if entity:
+		return
+	entity = get_parent()
 
 
 ## Returns [color=orange]true[/color] when not alive.
@@ -99,7 +110,7 @@ func kill() -> void:
 
 
 ## Apply enough healing to fill.
-func full_heal() -> void:
+func fill_health() -> void:
 	heal(max - current)
 
 
@@ -116,7 +127,6 @@ func damage(amount: int) -> void:
 		return
 	
 	var applied := clampi(amount, 0, current)
-
 	if applied == current and not killable:
 		print_debug("%s is not killable" % entity)
 		not_killable.emit(entity)
@@ -159,6 +169,10 @@ func heal(amount: int) -> void:
 	current += applied
 	print_debug("%s healed amount=%d applied=%d current=%d" % [entity, amount, applied, current])
 	healed.emit(entity, amount, applied)
+	
+	if current == max and applied > 0:
+		print_debug("%s has full health" % entity)
+		full.emit(entity)
 	
 	if notify_revived:
 		print_debug("%s revived" % entity)

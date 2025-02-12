@@ -12,7 +12,7 @@ var signals: Object
 
 func before_test() -> void:
 	health = auto_free(Health.new())
-	health.entity = self
+	add_child(health)
 	signals = monitor_signals(health)
 
 
@@ -109,13 +109,13 @@ func test_is_full_default() -> void:
 	assert_bool(health.is_full()).is_true()
 
 
+func test_percent_full() -> void:
+	assert_float(health.percent()).is_equal(1.0)
+
+
 func test_is_full_false() -> void:
 	health.current -= 1
 	assert_bool(health.is_full()).is_false()
-
-
-func test_percent_full() -> void:
-	assert_float(health.percent()).is_equal(1.0)
 
 
 func test_percent_half() -> void:
@@ -138,30 +138,222 @@ func test_damage() -> void:
 	health.current -= 10
 	health.damage(20)
 	assert_int(health.current).is_equal(Health.DEFAULT_MAX - 30)
+	
 	await assert_signal(signals).is_emitted("damaged", [self, 20, 20])
-	await assert_signal(signals).wait_until(100).is_not_emitted("first_hit", [self])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("first_hit", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("died", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("already_dead", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_damageable", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_killable", [self])
 
 
 func test_damage_first_hit() -> void:
 	health.damage(42)
-	
 	assert_int(health.current).is_equal(Health.DEFAULT_MAX - 42)
+	
 	await assert_signal(signals).is_emitted("damaged", [self, 42, 42])
 	await assert_signal(signals).is_emitted("first_hit", [self])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("died", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("already_dead", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_damageable", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_killable", [self])
 
 
 func test_damage_death() -> void:
 	health.current -= 10
 	health.damage(Health.DEFAULT_MAX)
 	assert_int(health.current).is_equal(0)
+	
 	await assert_signal(signals).is_emitted("damaged", [self, Health.DEFAULT_MAX, 90])
 	await assert_signal(signals).is_emitted("died", [self])
-	await assert_signal(signals).wait_until(100).is_not_emitted("first_hit", [self])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("first_hit", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("already_dead", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_damageable", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_killable", [self])
+
+
+func test_damage_already_dead() -> void:
+	health.current = 0
+	health.damage(10)
+	assert_int(health.current).is_equal(0)
+	
+	await assert_signal(signals).is_emitted("already_dead", [self])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("damaged", [self, any_int(), any_int()])
+	await assert_signal(signals).wait_until(50).is_not_emitted("died", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("first_hit", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("already_dead", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_damageable", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_killable", [self])
 
 
 func test_damage_one_shot() -> void:
 	health.damage(Health.DEFAULT_MAX)
 	assert_int(health.current).is_equal(0)
+	
 	await assert_signal(signals).is_emitted("damaged", [self, Health.DEFAULT_MAX, Health.DEFAULT_MAX])
 	await assert_signal(signals).is_emitted("first_hit", [self])
 	await assert_signal(signals).is_emitted("died", [self])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("already_dead", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_damageable", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_killable", [self])
+
+
+func test_damage_not_damageable() -> void:
+	health.damageable = false
+	health.damage(Health.DEFAULT_MAX)
+	assert_int(health.current).is_equal(Health.DEFAULT_MAX)
+	
+	await assert_signal(signals).is_emitted("not_damageable", [self])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("damaged", [self, any_int(), any_int()])
+	await assert_signal(signals).wait_until(50).is_not_emitted("first_hit", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("died", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("already_dead", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_killable", [self])
+
+
+func test_damage_not_killable() -> void:
+	health.killable = false
+	health.damage(10)
+	assert_int(health.current).is_equal(Health.DEFAULT_MAX - 10)
+	
+	await assert_signal(signals).is_emitted("damaged", [self, 10, 10])
+	await assert_signal(signals).is_emitted("first_hit", [self])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("died", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("already_dead", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_damageable", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_killable", [self])
+
+
+func test_damage_kill_not_killable() -> void:
+	health.killable = false
+	health.current = 10
+	health.damage(10)
+	assert_int(health.current).is_equal(10)
+	
+	await assert_signal(signals).is_emitted("not_killable", [self])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("damaged", [self, any_int(), any_int()])
+	await assert_signal(signals).wait_until(50).is_not_emitted("first_hit", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("died", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("already_dead", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_damageable", [self])
+
+
+func test_kill() -> void:
+	health.kill()
+	assert_int(health.current).is_equal(0)
+	
+	await assert_signal(signals).is_emitted("damaged", [self, Health.DEFAULT_MAX, Health.DEFAULT_MAX])
+	await assert_signal(signals).is_emitted("first_hit", [self])
+	await assert_signal(signals).is_emitted("died", [self])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("already_dead", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_damageable", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_killable", [self])
+
+
+func test_heal() -> void:
+	health.current = 1
+	health.heal(10)
+	assert_int(health.current).is_equal(11)
+	
+	await assert_signal(signals).is_emitted("healed", [self, 10, 10])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("revived", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("full", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("already_full", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_healable", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_revivable", [self])
+
+
+func test_heal_full() -> void:
+	health.current -= 10
+	health.heal(10)
+	assert_int(health.current).is_equal(Health.DEFAULT_MAX)
+	
+	await assert_signal(signals).is_emitted("healed", [self, 10, 10])
+	await assert_signal(signals).is_emitted("full", [self])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("revived", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("already_full", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_healable", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_revivable", [self])
+
+
+func test_heal_already_full() -> void:
+	health.heal(10)
+	assert_int(health.current).is_equal(Health.DEFAULT_MAX)
+	
+	await assert_signal(signals).is_emitted("already_full", [self])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("healed", [self, any_int(), any_int()])
+	await assert_signal(signals).wait_until(50).is_not_emitted("revived", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("full", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_healable", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_revivable", [self])
+
+
+func test_heal_revive() -> void:
+	health.current = 0
+	health.heal(10)
+	assert_int(health.current).is_equal(10)
+	
+	await assert_signal(signals).is_emitted("healed", [self, 10, 10])
+	await assert_signal(signals).is_emitted("revived", [self])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("full", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("already_full", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_healable", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_revivable", [self])
+
+
+func test_heal_not_healable() -> void:
+	health.healable = false
+	health.current = 1
+	health.heal(10)
+	assert_int(health.current).is_equal(1)
+	
+	await assert_signal(signals).is_emitted("not_healable", [self])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("healed", [self, any_int(), any_int()])
+	await assert_signal(signals).wait_until(50).is_not_emitted("revived", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("full", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("already_full", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_revivable", [self])
+
+
+func test_heal_not_healable_and_dead() -> void:
+	health.healable = false
+	health.current = 0
+	health.heal(10)
+	assert_int(health.current).is_equal(0)
+	
+	await assert_signal(signals).is_emitted("not_healable", [self])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("healed", [self, any_int(), any_int()])
+	await assert_signal(signals).wait_until(50).is_not_emitted("revived", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("full", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("already_full", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_revivable", [self])
+
+
+func test_heal_not_revivable() -> void:
+	health.revivable = false
+	health.current = 0
+	health.heal(10)
+	assert_int(health.current).is_equal(0)
+	
+	await assert_signal(signals).is_emitted("not_revivable", [self])
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("healed", [self, any_int(), any_int()])
+	await assert_signal(signals).wait_until(50).is_not_emitted("revived", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("full", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("already_full", [self])
+	await assert_signal(signals).wait_until(50).is_not_emitted("not_healable", [self])
