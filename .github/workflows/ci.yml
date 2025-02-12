@@ -19,6 +19,12 @@ on:
 jobs:
   unit-test:
     runs-on: 'ubuntu-latest'
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
     strategy:
       matrix:
         godot-version: ['4.3']
@@ -26,7 +32,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           lfs: true
-      - uses: MikeSchulze/gdunit4-action@v1.1.5
+      - uses: MikeSchulze/gdunit4-action@v1
         with:
           version: "installed"
           godot-version: ${{ matrix.godot-version }}
