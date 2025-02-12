@@ -32,12 +32,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           lfs: true
-      - uses: MikeSchulze/gdunit4-action@v1
+      - uses: MikeSchulze/gdunit4-action@v1.1.5
         with:
           version: "installed"
           godot-version: ${{ matrix.godot-version }}
           paths: 'res://test/'
-          report-name: unit-test-report-${{ matrix.godot-version }}.xml
+          publish-report: false
+          report-name: unit-test-report-${{ matrix.godot-version }}
 
 
 #name: ci-pr-example
