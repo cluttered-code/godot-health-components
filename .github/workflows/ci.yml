@@ -1,5 +1,20 @@
 name: GdUnit4 Tests
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore:
+      - "**.jpg"
+      - "**.png"
+      - "**.svg"
+      - "**.md"
+      - "**plugin.cfg"
+  pull_request:
+    paths-ignore:
+      - "**.jpg"
+      - "**.png"
+      - "**.svg"
+      - "**.md"
+      - "**plugin.cfg"
+  workflow_dispatch:
 
 jobs:
   unit-test:
