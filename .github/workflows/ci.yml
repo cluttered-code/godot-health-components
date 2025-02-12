@@ -14,6 +14,7 @@ jobs:
       - uses: MikeSchulze/gdunit4-action@v1
         with:
           godot-version: ${{ matrix.godot-version }}
+          godot-status: "stable"
           paths: 'res://tests/'
           retries: 3
           arguments: '--verbose --fail-fast'
