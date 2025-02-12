@@ -2,14 +2,19 @@ name: GdUnit4 Tests
 on: [push, pull_request]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  unit-test:
+    runs-on: 'ubuntu-latest'
+    strategy:
+      matrix:
+        godot-version: ['4.3']
     steps:
-      - uses: actions/checkout@v4
       - uses: MikeSchulze/gdunit4-action@v1
         with:
-          godot-version: '4.3'
-          paths: 'res://tests'
+          godot-version: ${{ matrix.godot-version }}
+          paths: 'res://tests/'
+          retries: 3
+          arguments: '--verbose --fail-fast'
+          report-name: unit-test-report-${{ matrix.godot-version }}.xml
 
 
 #name: ci-pr-example
