@@ -24,7 +24,6 @@ script = ExtResource("1_yff8e")
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("2_n5v70")
-current = 50
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 light_mask = 0

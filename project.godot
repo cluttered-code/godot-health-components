@@ -28,10 +28,6 @@ window/stretch/scale_mode="integer"
 
 enabled=PackedStringArray("res://addons/health_hitbox_hurtbox/plugin.cfg", "res://addons/gdUnit4/plugin.cfg")
 
-[gdunit4]
-
-settings/test/test_lookup_folder="test/"
-
 [layer_names]
 
 2d_physics/layer_1="Walls"

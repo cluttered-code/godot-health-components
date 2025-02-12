@@ -1,61 +1,86 @@
+@tool
 @icon("res://addons/health_hitbox_hurtbox/health/health.svg")
 class_name Health extends Node
-## Health is used to track the owner's health, death, and revival.
+## Health is used to track an entity's health, death, and revival.
 
 ## Emitted after damage is applied.
-signal damaged(owner: Node, amount: int, applied: int)
+signal damaged(entity: Node, amount: int, applied: int)
 ## Emitted after damage is applied when death has occured.
-signal died(owner: Node)
+signal died(entity: Node)
 
 ## Emitted after healing is applied.
-signal healed(owner: Node, amount: int, applied: int)
+signal healed(entity: Node, amount: int, applied: int)
 ## Emitted after healing is applied when dead.
-signal revived(owner: Node)
+signal revived(entity: Node)
 
 
 ## Emitted when damaged and entity had full health.
-signal first_hit(owner: Node)
+signal first_hit(entity: Node)
 ## Emitted when trying to damage an entity that is not damageable.
-signal not_damageable(owner: Node)
+signal not_damageable(entity: Node)
 ## Emitted when damaging and current health is already zero.
-signal already_dead(owner: Node)
+signal already_dead(entity: Node)
 ## Emitted when trying to apply enough damage to an enemy to kill them and they cannot be.
-signal not_killable(owner: Node)
+signal not_killable(entity: Node)
 
 
 ## Emitted when trying to heal and entity is not healable.
-signal not_healable(owner: Node)
+signal not_healable(entity: Node)
 ## Emitted when healing and current health is already full.
-signal already_full(owner: Node)
+signal already_full(entity: Node)
 ## Emitted when trying to heal a dead entity that is not revivable
-signal not_revivable(owner: Node)
+signal not_revivable(entity: Node)
 
 const DEFAULT_MAX = 100
 
-## The current amount of health.
-@export var current: int = DEFAULT_MAX
-## The maximum amount of health.
-@export var max: int = DEFAULT_MAX
+## The current amount of health.[br]
+## Value is clamped [0, max].
+@export var current: int = DEFAULT_MAX:
+	set(curr):
+		current = clampi(curr, 0, max)
+
+## The maximum amount of health.[br]
+## Will not allow values < 1.
+## Will reduce current if greater than updated max.[br]
+@export var max: int = DEFAULT_MAX:
+	set(new_max):
+		var old_max = max
+		max = maxi(new_max, 1)
+		
+		# after max is set or current will clamp worng
+		if Engine.is_editor_hint() and current == old_max:
+			# keep full health in editor if it was before
+			current = max
+		else:
+			# reduce current in game so it is not greater than max
+			current = mini(current, max)
+
 
 @export_group("Conditions")
-## Enable if owner is capable of taking damage.
+## Enable if entity is capable of taking damage.
 @export var damageable: bool = true
-## Enable if owner is capable of being healed.
+## Enable if entity is capable of being healed.
 @export var healable: bool = true
-## Enable if owner is able to be killed.
+## Enable if entity is able to be killed.
 @export var killable: bool = true
-## Enable if owner is able to be revived from death.
+## Enable if entity is able to be revived from death.
 @export var revivable: bool = true
 
 
-## Returns [color=orange]true[/color] when current health is greater than 0.
-func is_alive() -> bool:
-	return current > 0
+@export_group("Advanced")
+## The entity sent in callback signals for association.
+## defaults to [color=orange]get_parent()[/color]
+@export var entity: Node = get_parent()
 
 
 ## Returns [color=orange]true[/color] when not alive.
 func is_dead() -> bool:
-	return not is_alive()
+	return current == 0 and killable
+
+
+## Returns [color=orange]true[/color] when current health is greater than 0.
+func is_alive() -> bool:
+	return not is_dead()
 
 
 ## Return [color=orange]true[/color] when current health is max.
@@ -68,65 +93,76 @@ func percent() -> float:
 	return clampf(float(current) / float(max), 0.0, 1.0)
 
 
+## Apply enough damage to kill.
+func kill() -> void:
+	damage(current)
+
+
+## Apply enough healing to fill.
+func full_heal() -> void:
+	heal(max - current)
+
+
 ## Apply the specified amount of damage if damageable and not dead.
 func damage(amount: int) -> void:
 	if not damageable:
-		print_debug("%s cannot be damaged" % owner)
-		not_damageable.emit(owner)
+		print_debug("%s cannot be damaged" % entity)
+		not_damageable.emit(entity)
 		return
 	
 	if is_dead():
-		print_debug("%s is already dead" % owner)
-		already_dead.emit(owner)
+		print_debug("%s is already dead" % entity)
+		already_dead.emit(entity)
 		return
 	
 	var applied := clampi(amount, 0, current)
 
 	if applied == current and not killable:
-		print_debug("%s is not killable" % owner)
-		not_killable.emit(owner)
+		print_debug("%s is not killable" % entity)
+		not_killable.emit(entity)
 		return
 
 	var is_first_hit := is_full() and applied > 0
 	current -= applied
-	print_debug("%s damaged amount=%d applied=%d current=%d" % [owner, amount, applied, current])
-	damaged.emit(owner, amount, applied)
+	print_debug("%s damaged amount=%d applied=%d current=%d" % [entity, amount, applied, current])
+	damaged.emit(entity, amount, applied)
+	
 	if is_first_hit:
-		print_debug("%s first hit" % owner)
-		first_hit.emit(owner)
+		print_debug("%s first hit" % entity)
+		first_hit.emit(entity)
 	
 	if is_dead():
-		print_debug("%s died" % owner)
-		died.emit(owner)
+		print_debug("%s died" % entity)
+		died.emit(entity)
 
 
 ## apply the specified amount of healing if healable, not full, or dead and revivable.
 func heal(amount: int) -> void:
 	if not healable:
-		print_debug("%s is not healable" % owner)
-		not_healable.emit(owner)
+		print_debug("%s is not healable" % entity)
+		not_healable.emit(entity)
 		return
 	
 	if is_full():
-		print_debug("%s already has full health" % owner)
-		already_full.emit(owner)
+		print_debug("%s already has full health" % entity)
+		already_full.emit(entity)
 		return
 	
 	if is_dead() and not revivable:
-		print_debug("%s cannot be revived" % owner)
-		not_revivable.emit(owner)
+		print_debug("%s cannot be revived" % entity)
+		not_revivable.emit(entity)
 		return
 	
 	var notify_revived := is_dead() and amount > 0
 	
 	var applied := clampi(amount, 0, max - current)
 	current += applied
-	print_debug("%s healed amount=%d applied=%d current=%d" % [owner, amount, applied, current])
-	healed.emit(owner, amount, applied)
+	print_debug("%s healed amount=%d applied=%d current=%d" % [entity, amount, applied, current])
+	healed.emit(entity, amount, applied)
 	
 	if notify_revived:
-		print_debug("%s revived" % owner)
-		revived.emit(owner)
+		print_debug("%s revived" % entity)
+		revived.emit(entity)
 
 
 ## Returns the object's class name as a [String].
