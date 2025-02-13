@@ -22,9 +22,8 @@ height = 14.0
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_yff8e")
 
-[node name="Health" type="Node" parent="." node_paths=PackedStringArray("entity")]
+[node name="Health" type="Node" parent="."]
 script = ExtResource("2_n5v70")
-entity = NodePath("..")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 light_mask = 0
