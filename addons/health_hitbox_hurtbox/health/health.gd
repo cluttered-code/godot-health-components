@@ -72,7 +72,7 @@ const DEFAULT_MAX = 100
 ## The entity sent in signals for association.[br][br]
 ## Defaults to [color=orange]get_parent()[/color] inside [color=orange]_enter_tree()[/color]
 ## if not specified.[br][br]
-## [color=orange]It is not advised to reparent a Health Node! Create a new one instead.[/color][br]
+## [color=orange]It is not advised to reparent a [Health] Node! Create a new one instead.[/color][br]
 ## When reparenting set [color=orange]entity = null[/color] before it enters the tree again to
 ## automatically assign the new parent. This can be manually set at anytime.
 @export var entity: Node
