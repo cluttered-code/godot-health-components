@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://gtb70vt133hn"]
+
+[ext_resource type="Script" path="res://example/projectile/projectile.gd" id="1_3ruoe"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o8jr6"]
+radius = 2.0
+height = 10.0
+
+[node name="Projectile" type="Area2D"]
+collision_layer = 256
+collision_mask = 16
+script = ExtResource("1_3ruoe")
+amount = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_o8jr6")
+debug_color = Color(0.879278, 0.179821, 0.709977, 0.42)

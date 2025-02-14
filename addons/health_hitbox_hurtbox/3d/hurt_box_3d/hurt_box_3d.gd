@@ -16,10 +16,6 @@ class_name HurtBox3D extends Area3D
 @export var heal_multiplier: float = 1.0
 
 
-func _ready() -> void:
-	area_entered.connect(_on_area_entered)
-
-
 ## Calculates and applies damage to associated [Health].
 func damage(amount: int) -> void:
 	if not health:
@@ -36,19 +32,6 @@ func heal(amount: int) -> void:
 		return
 	
 	health.heal(roundi(amount * heal_multiplier))
-
-
-## When collisions with [HitBox3D] are detected this applies appropriate action to associated [Health].
-func _on_area_entered(area: Area3D) -> void:
-	if area is not HitBox3D:
-		return
-	
-	var hitbox := area as HitBox3D
-	match hitbox.action:
-		HitBox3D.Action.DAMAGE:
-			damage(hitbox.amount)
-		HitBox3D.Action.HEAL:
-			heal(hitbox.amount)
 
 
 # Warn users if values haven't been configured.

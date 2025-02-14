@@ -1,15 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://dnbgq63rhbp38"]
+[gd_scene load_steps=5 format=3 uid="uid://dnbgq63rhbp38"]
 
 [ext_resource type="PackedScene" uid="uid://l7q3g1b102a7" path="res://example/player/player.tscn" id="1_plffl"]
 [ext_resource type="Script" path="res://example/main.gd" id="1_qd6oa"]
-[ext_resource type="Script" path="res://addons/health_hitbox_hurtbox/2d/hit_box_2d/hit_box_2d.gd" id="2_iiaj5"]
+[ext_resource type="Script" path="res://addons/health_hitbox_hurtbox/2d/hit_scan_2d/hit_scan_2d.gd" id="2_c8t1k"]
 
 [sub_resource type="Theme" id="Theme_pjoij"]
 Label/colors/font_color = Color(1, 0.654902, 0.109804, 1)
 Label/font_sizes/font_size = 20
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_20mwd"]
-radius = 40.0
 
 [node name="Main" type="Node"]
 script = ExtResource("1_qd6oa")
@@ -28,34 +25,35 @@ theme_override_constants/margin_bottom = 10
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+theme_override_constants/separation = 15
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="TogglesHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="Damageable" type="CheckButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Damageable" type="CheckButton" parent="MarginContainer/VBoxContainer/TogglesHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_default_cursor_shape = 2
 button_pressed = true
 text = "Damageable"
 
-[node name="Healable" type="CheckButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Healable" type="CheckButton" parent="MarginContainer/VBoxContainer/TogglesHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_default_cursor_shape = 2
 button_pressed = true
 text = "Healable"
 
-[node name="Killable" type="CheckButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Killable" type="CheckButton" parent="MarginContainer/VBoxContainer/TogglesHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_default_cursor_shape = 2
 button_pressed = true
 text = "Killable"
 
-[node name="Revivable" type="CheckButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Revivable" type="CheckButton" parent="MarginContainer/VBoxContainer/TogglesHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -63,82 +61,140 @@ button_pressed = true
 text = "Revivable
 "
 
-[node name="Status" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="LabelHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_constants/separation = 120
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/LabelHBoxContainer"]
+layout_mode = 2
+text = "HitScan"
+
+[node name="Status" type="Label" parent="MarginContainer/VBoxContainer/LabelHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 theme = SubResource("Theme_pjoij")
 text = "Alive"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/LabelHBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 8
+text = "HitBox"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer2"]
+[node name="HitHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
 
-[node name="DamageMultiplier" type="SpinBox" parent="MarginContainer/VBoxContainer2/HBoxContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HitHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 45
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HitHBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HeadHitScanAmount" type="SpinBox" parent="MarginContainer/VBoxContainer/HitHBoxContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-min_value = -1.0
-max_value = 3.0
-step = 0.1
-value = 1.0
-suffix = "x"
-
-[node name="DamageAmount" type="SpinBox" parent="MarginContainer/VBoxContainer2/HBoxContainer2"]
-unique_name_in_owner = true
-layout_mode = 2
-min_value = 1.0
-max_value = 20.0
 value = 10.0
+alignment = 1
 
-[node name="Damage" type="Button" parent="MarginContainer/VBoxContainer2/HBoxContainer2"]
+[node name="HeadHitScan" type="Button" parent="MarginContainer/VBoxContainer/HitHBoxContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-mouse_default_cursor_shape = 2
-text = "Damage"
+text = "Head"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HitHBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="BodyHitScanAmount" type="SpinBox" parent="MarginContainer/VBoxContainer/HitHBoxContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 10.0
+alignment = 1
+
+[node name="BodyHitScan" type="Button" parent="MarginContainer/VBoxContainer/HitHBoxContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Body"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HitHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_constants/separation = 45
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HitHBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="HeadHitBox" type="Button" parent="MarginContainer/VBoxContainer/HitHBoxContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Head"
+
+[node name="HeadHitBoxAmount" type="SpinBox" parent="MarginContainer/VBoxContainer/HitHBoxContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 10.0
+alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HitHBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="BodyHitBox" type="Button" parent="MarginContainer/VBoxContainer/HitHBoxContainer/VBoxContainer2/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Body"
+
+[node name="BodyHitBoxAmount" type="SpinBox" parent="MarginContainer/VBoxContainer/HitHBoxContainer/VBoxContainer2/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 10.0
+alignment = 1
+
+[node name="LastAction" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 8
 
-[node name="HealMultiplier" type="SpinBox" parent="MarginContainer/VBoxContainer2/HBoxContainer"]
+[node name="HealHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="HealAmount" type="SpinBox" parent="MarginContainer/VBoxContainer/HealHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-min_value = -1.0
-max_value = 3.0
-step = 0.1
-value = 1.0
-suffix = "x"
+value = 10.0
+alignment = 1
 
-[node name="HealAmount" type="SpinBox" parent="MarginContainer/VBoxContainer2/HBoxContainer"]
+[node name="Heal" type="Button" parent="MarginContainer/VBoxContainer/HealHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-min_value = 1.0
-max_value = 10.0
-value = 5.0
-
-[node name="Heal" type="Button" parent="MarginContainer/VBoxContainer2/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-mouse_default_cursor_shape = 2
 text = "Heal"
 
-[node name="HitBox2D" type="Area2D" parent="."]
-position = Vector2(167, 168)
-collision_layer = 2
-collision_mask = 0
-monitoring = false
-script = ExtResource("2_iiaj5")
+[node name="HeadHitScan2D" type="RayCast2D" parent="."]
+position = Vector2(-10, 140)
+target_position = Vector2(350, 0)
+collision_mask = 16
+collide_with_areas = true
+collide_with_bodies = false
+script = ExtResource("2_c8t1k")
+amount = 10
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox2D"]
-position = Vector2(89, -18)
-shape = SubResource("CircleShape2D_20mwd")
-debug_color = Color(0.952941, 0.117647, 0.701961, 0.419608)
+[node name="BodyHitScan2D" type="RayCast2D" parent="."]
+position = Vector2(-10, 165)
+target_position = Vector2(350, 0)
+collision_mask = 16
+collide_with_areas = true
+collide_with_bodies = false
+script = ExtResource("2_c8t1k")
+amount = 10
+
+[node name="HeadMarker2D" type="Marker2D" parent="."]
+position = Vector2(573, 140)
+
+[node name="BodyMarker2D" type="Marker2D" parent="."]
+position = Vector2(573, 165)
 
 [node name="Player" parent="." instance=ExtResource("1_plffl")]
-position = Vector2(256, 178)
+position = Vector2(282, 178)
 scale = Vector2(4, 4)

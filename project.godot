@@ -18,17 +18,29 @@ config/icon="res://images/addon_icon.png"
 
 [display]
 
-window/size/viewport_width=512
-window/size/viewport_height=275
+window/size/viewport_width=563
+window/size/viewport_height=303
 window/size/always_on_top=true
-window/stretch/mode="viewport"
-window/stretch/scale_mode="integer"
+window/size/window_width_override=960
+window/size/window_height_override=540
+window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/health_hitbox_hurtbox/plugin.cfg", "res://addons/gdUnit4/plugin.cfg")
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg", "res://addons/health_hitbox_hurtbox/plugin.cfg")
+
+[global_group]
+
+player="contains the player"
 
 [layer_names]
 
-2d_physics/layer_1="Walls"
-2d_physics/layer_2="Weapons"
+2d_physics/layer_1="environment"
+2d_physics/layer_2="environment_hurt_box"
+2d_physics/layer_3="environment_hit_box"
+2d_physics/layer_4="player"
+2d_physics/layer_5="player_hurt_box"
+2d_physics/layer_6="player_hit_box"
+2d_physics/layer_7="enemy"
+2d_physics/layer_8="enemy_hurt_box"
+2d_physics/layer_9="enemy_hit_box"

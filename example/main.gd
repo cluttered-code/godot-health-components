@@ -1,5 +1,7 @@
 extends Node
 
+var projectile_scene = preload("res://example/projectile/projectile.tscn")
+
 
 func _ready() -> void:
 	%Damageable.pressed.connect(_on_damageable_pressed.bind(%Damageable))
@@ -7,12 +9,16 @@ func _ready() -> void:
 	%Killable.pressed.connect(_on_killable_pressed.bind(%Killable))
 	%Revivable.pressed.connect(_on_revivable_pressed.bind(%Revivable))
 	
-	%DamageMultiplier.value_changed.connect(_on_damage_multiplier_changed)
-	%Damage.pressed.connect(_on_damage_pressed)
+	%HeadHitScan.pressed.connect(_on_head_hit_scan)
+	%BodyHitScan.pressed.connect(_on_body_hit_scan)
 	
-	%HealMultiplier.value_changed.connect(_on_heal_multiplier_changed)
+	%HeadHitBox.pressed.connect(_on_head_hit_box)
+	%BodyHitBox.pressed.connect(_on_body_hit_box)
+	
 	%Heal.pressed.connect(_on_heal_pressed)
 	
+	$Player.health.damaged.connect(_on_player_damaged)
+	$Player.health.healed.connect(_on_player_healed)
 	$Player.health.died.connect(_on_player_died)
 	$Player.health.revived.connect(_on_player_revived)
 
@@ -33,26 +39,38 @@ func _on_revivable_pressed(button: CheckButton) -> void:
 	$Player.health.revivable = button.button_pressed
 
 
-func _on_damage_multiplier_changed(value: float) -> void:
-	$Player.hurt_box.damage_multiplier = value
+func _on_head_hit_scan() -> void:
+	$HeadHitScan2D.amount = %HeadHitScanAmount.value
+	$HeadHitScan2D.fire()
 
 
-func _on_damage_pressed() -> void:
-	$HitBox2D.monitoring = false
-	$HitBox2D.action = HitBox2D.Action.DAMAGE
-	$HitBox2D.amount = %DamageAmount.value
-	$HitBox2D.monitoring = true
+func _on_body_hit_scan() -> void:
+	$BodyHitScan2D.amount = %BodyHitScanAmount.value
+	$BodyHitScan2D.fire()
 
 
-func _on_heal_multiplier_changed(value: float) -> void:
-	$Player.hurt_box.heal_multiplier = value
+func _on_head_hit_box() -> void:
+	var projectile := projectile_scene.instantiate()
+	projectile.position = $HeadMarker2D.position
+	add_child(projectile)
+
+
+func _on_body_hit_box() -> void:
+	var projectile := projectile_scene.instantiate()
+	projectile.position = $BodyMarker2D.position
+	add_child(projectile)
 
 
 func _on_heal_pressed() -> void:
-	$HitBox2D.monitoring = false
-	$HitBox2D.action = HitBox2D.Action.HEAL
-	$HitBox2D.amount = %HealAmount.value
-	$HitBox2D.monitoring = true
+	$Player.health.heal(%HealAmount.value)
+
+
+func _on_player_damaged(_entity: Node, amount: int, applied: int) -> void:
+	%LastAction.text = "DAMAGE amount=%d applied=%d" % [amount, applied]
+
+
+func _on_player_healed(_entity: Node, amount: int, applied: int) -> void:
+	%LastAction.text = "HEAL amount=%d applied=%d" % [amount, applied]
 
 
 func _on_player_died(_player: Node) -> void:

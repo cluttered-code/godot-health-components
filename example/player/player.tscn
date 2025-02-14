@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://l7q3g1b102a7"]
+[gd_scene load_steps=10 format=3 uid="uid://l7q3g1b102a7"]
 
 [ext_resource type="Script" path="res://example/player/player.gd" id="1_yff8e"]
 [ext_resource type="Script" path="res://addons/health_hitbox_hurtbox/health/health.gd" id="2_n5v70"]
@@ -11,27 +11,39 @@ bg_color = Color(0.909804, 0.270588, 0.215686, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q78yh"]
 bg_color = Color(0.145098, 0.584314, 0.415686, 1)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xqfh2"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3hurn"]
 radius = 6.0
 height = 16.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n3kc1"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_7si7q"]
 radius = 4.0
-height = 14.0
 
-[node name="Player" type="CharacterBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hq5fy"]
+size = Vector2(6, 6)
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 8
+collision_mask = 65
 script = ExtResource("1_yff8e")
 
-[node name="Health" type="Node" parent="."]
+[node name="Health" type="Node" parent="." node_paths=PackedStringArray("entity")]
 script = ExtResource("2_n5v70")
+entity = NodePath("..")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 light_mask = 0
 custom_minimum_size = Vector2(32, 6)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 offset_left = -16.0
 offset_top = -24.0
 offset_right = 16.0
 offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 2
 pivot_offset = Vector2(16, 3)
 theme_override_styles/background = SubResource("StyleBoxFlat_n21ov")
 theme_override_styles/fill = SubResource("StyleBoxFlat_q78yh")
@@ -46,15 +58,27 @@ texture = ExtResource("3_dkssk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -8)
-shape = SubResource("CapsuleShape2D_xqfh2")
+shape = SubResource("CapsuleShape2D_3hurn")
 
-[node name="HurtBox2D" type="Area2D" parent="." node_paths=PackedStringArray("health")]
-collision_layer = 0
-collision_mask = 2
+[node name="HeadHurtBox2D" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("3_8gslm")
+health = NodePath("../Health")
+damage_multiplier = 2.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeadHurtBox2D"]
+position = Vector2(0, -9)
+shape = SubResource("CircleShape2D_7si7q")
+debug_color = Color(0.956863, 0.188235, 0.258824, 0.419608)
+
+[node name="BodyHurtBox2D" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+collision_layer = 16
+collision_mask = 0
 script = ExtResource("3_8gslm")
 health = NodePath("../Health")
 
-[node name="HurtCollisionShape2D" type="CollisionShape2D" parent="HurtBox2D"]
-position = Vector2(0, -7)
-shape = SubResource("CapsuleShape2D_n3kc1")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyHurtBox2D"]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_hq5fy")
 debug_color = Color(0.955109, 0.188514, 0.258753, 0.42)

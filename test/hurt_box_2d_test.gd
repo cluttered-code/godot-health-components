@@ -54,32 +54,3 @@ func test_heal_no_health() -> void:
 			.is_push_error("%s is missing a 'Health' component" % hurt_box)
 	
 	verify_no_interactions(mock_health)
-
-
-func test_on_entered_damage() -> void:
-	var hit_box: HitBox2D = auto_free(HitBox2D.new())
-	hit_box.action = HitBox2D.Action.DAMAGE
-	hit_box.amount = 10
-	
-	hurt_box._on_area_entered(hit_box)
-	
-	verify(mock_health, 1).damage(10)
-
-
-func test_on_entered_heal() -> void:
-	var hit_box: HitBox2D = auto_free(HitBox2D.new())
-	hit_box.action = HitBox2D.Action.HEAL
-	hit_box.amount = 10
-	
-	hurt_box._on_area_entered(hit_box)
-	
-	verify(mock_health, 1).heal(10)
-
-
-func test_on_entered_not_hit_box_2d() -> void:
-	var area = auto_free(Area2D.new())
-	
-	hurt_box._on_area_entered(area)
-	
-	verify(mock_health, 0).damage(any_int())
-	verify(mock_health, 0).heal(any_int())
