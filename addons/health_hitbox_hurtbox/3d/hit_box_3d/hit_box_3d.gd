@@ -6,13 +6,20 @@ class_name HitBox3D extends Area3D
 signal hit_box_entered(hit_box: HitBox3D)
 ## emitted when collision with [HurtBox3D] detected.
 signal hurt_box_entered(hurt_box: HurtBox3D)
+## emitted when collision with [Area3D] that isn't [HitBox3D] or [HurtBox3D].
+## Can be using to detect things like environment.
+signal unknown_area_entered(area: Area3D)
 
 
 ## The [Health.Action] to be performed.
 @export var action: Health.Action = Health.Action.DAMAGE
 ## The amount of the action.
 @export var amount: int = 0
-## Ignore collisions when [color=orange]true[/color].
+## Ignore collisions when [color=orange]true[/color].[br]
+## Set this to [color=orange]true[/color] after a collision is detected to avoid
+## further collisions.[br]
+## It is recommended to set this to [color=orange]true[/color] before calling
+## [color=orange]queue_free()[/color] to avoid further collisions.
 @export var ignore_collisions: bool
 
 
@@ -30,6 +37,7 @@ func _on_area_entered(area: Area3D) -> void:
 		return
 	
 	if area is not HurtBox3D:
+		unknown_area_entered.emit(area)
 		return
 	
 	var hurt_box: HurtBox3D = area

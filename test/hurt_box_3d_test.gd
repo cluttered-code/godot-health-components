@@ -5,6 +5,7 @@ class_name HurtBox3DTest extends GdUnitTestSuite
 var mock_health: Health
 var hurt_box: HurtBox3D
 
+
 func before_test() -> void:
 	mock_health = auto_free(mock(Health))
 	hurt_box = auto_free(HurtBox3D.new())

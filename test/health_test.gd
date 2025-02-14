@@ -5,6 +5,7 @@ class_name HealthTest extends GdUnitTestSuite
 var health: Health
 var signals: Object
 
+
 func before_test() -> void:
 	health = auto_free(Health.new())
 	add_child(health)
