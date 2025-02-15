@@ -5,7 +5,7 @@
 [![Current Release](https://img.shields.io/github/release/cluttered-code/godot-health-hitbox-hurtbox.svg "Current Release")](https://github.com/cluttered-code/godot-health-hitbox-hurtbox/releases/latest)
 
 [![actions](https://github.com/cluttered-code/godot-health-hitbox-hurtbox/actions/workflows/ci.yml/badge.svg)](https://github.com/cluttered-code/godot-health-hitbox-hurtbox/actions/workflows/ci.yml)
-<!-- [![Downloads](https://img.shields.io/github/downloads/cluttered-code/godot-health-hitbox-hurtbox/total.svg "Downloads")](https://github.com/cluttered-code/godot-health-hitbox-hurtbox/releases) -->
+[![Downloads](https://img.shields.io/github/downloads/cluttered-code/godot-health-hitbox-hurtbox/total.svg "Downloads")](https://github.com/cluttered-code/godot-health-hitbox-hurtbox/releases)
 
 ## ![Health](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/addons/health_hitbox_hurtbox/health/health.svg) Health
 
@@ -48,10 +48,10 @@
 
 1. Add a `Health` node to a Node that needs health (ie. `CharacterBody2D` or `StaticBody3D`)
 2. Add a `HurtBox2D` node with a `CollisionShape2D` to the same Node.
-3. Set the `HurtBox2D` Collision layer and mask.
-4. Any Node With a `HitBox2D` set to the same layer as the mask in step #3 will automatically detect collisions.
-
-**alternativly**: `RayCast2D` nodes can be used to detect collisions with `HurtBox2D` and directly call `damage()` or `heal()` functions to affect health.
+3. Set the `HurtBox2D` collision layer.
+4. `HitBox2D` or `HitScan2D`
+    - Create a projectile or melee weapon with a `HitBox2D` and set the collision mask to the same layer as the `HurtBox2D` collision layer. This will automatically apply damage and healing.
+    - Create a gun with a `HitScan2D` extending from the barrel and set the collision mask to the same layer as the `HurtBox2D` collision layer. `fire()` needs to be called on the `HitScan2D` to apply damage and healing.
 
 ## Issues
 
