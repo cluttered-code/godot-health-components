@@ -26,6 +26,10 @@ collision_layer = 8
 collision_mask = 65
 script = ExtResource("1_yff8e")
 
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(4.17233e-07, -7.5)
+scale = Vector2(0.8, 0.75)
+
 [node name="Health" type="Node" parent="." node_paths=PackedStringArray("entity")]
 script = ExtResource("2_n5v70")
 entity = NodePath("..")

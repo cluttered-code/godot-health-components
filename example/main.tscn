@@ -171,6 +171,14 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Heal"
 
+[node name="HeadTimer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+
+[node name="BodyTimer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+
 [node name="HeadHitScan2D" type="RayCast2D" parent="."]
 position = Vector2(-10, 140)
 target_position = Vector2(350, 0)
@@ -198,3 +206,15 @@ position = Vector2(573, 165)
 [node name="Player" parent="." instance=ExtResource("1_plffl")]
 position = Vector2(282, 178)
 scale = Vector2(4, 4)
+
+[node name="HeadLine2D" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(-10, 140, 330, 140)
+width = 4.0
+default_color = Color(0.945672, 0.218837, 0.19699, 1)
+
+[node name="BodyLine2D" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(-10, 165, 330, 165)
+width = 4.0
+default_color = Color(0.945672, 0.218837, 0.19699, 1)

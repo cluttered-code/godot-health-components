@@ -4,6 +4,9 @@ var projectile_scene = preload("res://example/projectile/projectile.tscn")
 
 
 func _ready() -> void:
+	$HeadTimer.timeout.connect(_on_head_timeout)
+	$BodyTimer.timeout.connect(_on_body_timeout)
+	
 	%Damageable.pressed.connect(_on_damageable_pressed.bind(%Damageable))
 	%Healable.pressed.connect(_on_healable_pressed.bind(%Healable))
 	%Killable.pressed.connect(_on_killable_pressed.bind(%Killable))
@@ -41,11 +44,15 @@ func _on_revivable_pressed(button: CheckButton) -> void:
 
 func _on_head_hit_scan() -> void:
 	$HeadHitScan2D.amount = %HeadHitScanAmount.value
+	$HeadLine2D.visible = true
+	_restart_timer($HeadTimer)
 	$HeadHitScan2D.fire()
 
 
 func _on_body_hit_scan() -> void:
 	$BodyHitScan2D.amount = %BodyHitScanAmount.value
+	$BodyLine2D.visible = true
+	_restart_timer($BodyTimer)
 	$BodyHitScan2D.fire()
 
 
@@ -59,6 +66,19 @@ func _on_body_hit_box() -> void:
 	var projectile := projectile_scene.instantiate()
 	projectile.position = $BodyMarker2D.position
 	add_child(projectile)
+
+
+func _restart_timer(timer: Timer) -> void:
+	timer.stop()
+	timer.start()
+
+
+func _on_head_timeout() -> void:
+	$HeadLine2D.visible = false
+
+
+func _on_body_timeout() -> void:
+	$BodyLine2D.visible = false
 
 
 func _on_heal_pressed() -> void:

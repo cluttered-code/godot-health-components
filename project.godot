@@ -21,8 +21,6 @@ config/icon="res://images/addon_icon.png"
 window/size/viewport_width=563
 window/size/viewport_height=303
 window/size/always_on_top=true
-window/size/window_width_override=960
-window/size/window_height_override=540
 window/stretch/mode="canvas_items"
 
 [editor_plugins]
@@ -44,3 +42,7 @@ player="contains the player"
 2d_physics/layer_7="enemy"
 2d_physics/layer_8="enemy_hurt_box"
 2d_physics/layer_9="enemy_hit_box"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
