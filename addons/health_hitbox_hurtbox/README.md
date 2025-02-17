@@ -3,10 +3,11 @@
 [![Godot](https://img.shields.io/badge/Godot-4.3%2b-blue?logo=godot-engine)](https://godotengine.org/download)
 [![LICENSE](https://img.shields.io/badge/license-MIT-blue)](https://github.com/cluttered-code/godot-health-components/blob/main/addons/health_components/LICENSE)
 [![Current Release](https://img.shields.io/github/release/cluttered-code/godot-health-hitbox-hurtbox.svg "Current Release")](https://github.com/cluttered-code/godot-health-hitbox-hurtbox/releases/latest)
-
-[![Live Example](https://img.shields.io/badge/Live_Example-itch.io-fa5c5c)](https://cluttered-code.itch.io/godot-health-hitbox-hurtbox-hitscan)
 [![actions](https://github.com/cluttered-code/godot-health-hitbox-hurtbox/actions/workflows/ci.yml/badge.svg)](https://github.com/cluttered-code/godot-health-hitbox-hurtbox/actions/workflows/ci.yml)
 [![Downloads](https://img.shields.io/github/downloads/cluttered-code/godot-health-hitbox-hurtbox/total.svg "Downloads")](https://github.com/cluttered-code/godot-health-hitbox-hurtbox/releases)
+
+[![Live Example](https://img.shields.io/badge/Live_Example-itch.io-fa5c5c)](https://cluttered-code.itch.io/godot-health-hitbox-hurtbox-hitscan)
+[![ko-fi](https://img.shields.io/badge/Support%20on-ko--fi-ff5e5b?logo=ko-fi)](https://ko-fi.com/clutteredcode)
 
 ## ![Health](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/addons/health_hitbox_hurtbox/health/health.svg) Health
 
