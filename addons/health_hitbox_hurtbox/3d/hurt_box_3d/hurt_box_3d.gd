@@ -1,7 +1,7 @@
 @tool
 @icon("res://addons/health_hitbox_hurtbox/3d/hurt_box_3d/hurt_box_3d.svg")
 class_name HurtBox3D extends Area3D
-## HurtBox3D detectes collisions with [HitBox3D] and applies affects to [Health].
+## HurtBox3D enables collision detection by [HitBox3D] or [HitScan3D] and applies affects to [Health].
 
 ## The [Health] component to affect.
 @export var health: Health = null:
@@ -22,7 +22,15 @@ func damage(amount: int) -> void:
 		push_error("%s is missing a 'Health' component" % self)
 		return
 	
-	health.damage(roundi(amount * damage_multiplier))
+	amount = roundi(amount * damage_multiplier)
+	if amount == 0:
+		return
+	
+	if amount < 0:
+		health.heal(absi(amount))
+		return
+	
+	health.damage(amount)
 
 
 ## Calculates and applies healing to associated [Health].
@@ -31,7 +39,15 @@ func heal(amount: int) -> void:
 		push_error("%s is missing a 'Health' component" % self)
 		return
 	
-	health.heal(roundi(amount * heal_multiplier))
+	amount = roundi(amount * heal_multiplier)
+	if amount == 0:
+		return
+	
+	if amount < 0:
+		health.damage(absi(amount))
+		return
+	
+	health.heal(amount)
 
 
 # Warn users if values haven't been configured.

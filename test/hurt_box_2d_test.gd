@@ -35,6 +35,20 @@ func test_damage_no_health() -> void:
 	verify_no_interactions(mock_health)
 
 
+func test_damage_modifier_zero() -> void:
+	hurt_box.damage_multiplier = 0.0
+	hurt_box.damage(10)
+	
+	verify_no_interactions(mock_health)
+
+
+func test_damage_negative_modifier() -> void:
+	hurt_box.damage_multiplier = -1.0
+	hurt_box.damage(10)
+	
+	verify(mock_health, 1).heal(10)
+
+
 func test_heal() -> void:
 	hurt_box.heal(10)
 	
@@ -55,3 +69,17 @@ func test_heal_no_health() -> void:
 			.is_push_error("%s is missing a 'Health' component" % hurt_box)
 	
 	verify_no_interactions(mock_health)
+
+
+func test_heal_modifier_zero() -> void:
+	hurt_box.heal_multiplier = 0.0
+	hurt_box.heal(10)
+	
+	verify_no_interactions(mock_health)
+
+
+func test_heal_negative_modifier() -> void:
+	hurt_box.heal_multiplier = -1.0
+	hurt_box.heal(10)
+	
+	verify(mock_health, 1).damage(10)
