@@ -46,6 +46,13 @@ func test_damage_negative_modifier() -> void:
 	hurt_box.damage_multiplier = -1.0
 	hurt_box.damage(10)
 	
+	verify(mock_health, 1).damage(-10)
+
+
+func test_heal_on_damage() -> void:
+	hurt_box.heal_on_damage = true
+	hurt_box.damage(10)
+	
 	verify(mock_health, 1).heal(10)
 
 
@@ -80,6 +87,13 @@ func test_heal_modifier_zero() -> void:
 
 func test_heal_negative_modifier() -> void:
 	hurt_box.heal_multiplier = -1.0
+	hurt_box.heal(10)
+	
+	verify(mock_health, 1).heal(-10)
+
+
+func test_damage_on_heal() -> void:
+	hurt_box.damage_on_heal = true
 	hurt_box.heal(10)
 	
 	verify(mock_health, 1).damage(10)
