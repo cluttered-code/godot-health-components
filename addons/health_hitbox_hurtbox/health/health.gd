@@ -53,7 +53,7 @@ const DEFAULT_MAX = 100
 	set(new_max):
 		var old_max = max
 		max = maxi(new_max, 1)
-		# after max is set or current will clamp worng
+		# after max is set or current will clamp wrong
 		if Engine.is_editor_hint() and current == old_max:
 			# keep full health in editor if it was before
 			current = max
