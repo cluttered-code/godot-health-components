@@ -15,7 +15,7 @@ signal unknown_area_entered(area: Area2D)
 ## The [Health.Action] to be performed.
 @export var action: Health.Action = Health.Action.DAMAGE
 ## The amount of the action.
-@export var amount: int = 0
+@export var amount: int = 1
 ## Ignore collisions when [color=orange]true[/color].[br]
 ## Set this to [color=orange]true[/color] after a collision is detected to avoid
 ## further collisions.[br]

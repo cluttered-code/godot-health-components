@@ -16,7 +16,7 @@ signal unknown_area_entered(area: Area3D)
 ## The [Health.Action] to be performed.
 @export var action: Health.Action = Health.Action.DAMAGE
 ## The amount of the action.
-@export var amount: int = 0
+@export var amount: int = 1
 
 # Here for testing, can't mock native node functions
 var _collider: Node
