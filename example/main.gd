@@ -44,6 +44,7 @@ func _on_revivable_pressed(button: CheckButton) -> void:
 
 func _on_head_hit_scan() -> void:
 	$HeadHitScan2D.amount = %HeadHitScanAmount.value
+	$HeadHitScan2D.action = Health.Action.DAMAGE
 	$HeadLine2D.visible = true
 	_restart_timer($HeadTimer)
 	$HeadHitScan2D.fire()
@@ -51,21 +52,29 @@ func _on_head_hit_scan() -> void:
 
 func _on_body_hit_scan() -> void:
 	$BodyHitScan2D.amount = %BodyHitScanAmount.value
+	$BodyHitScan2D.action = Health.Action.DAMAGE
 	$BodyLine2D.visible = true
 	_restart_timer($BodyTimer)
 	$BodyHitScan2D.fire()
+	
 
 
 func _on_head_hit_box() -> void:
 	var projectile := projectile_scene.instantiate()
 	projectile.position = $HeadMarker2D.position
 	add_child(projectile)
+	projectile.amount = %HeadHitBoxAmount.value
+	projectile.action = Health.Action.DAMAGE
+	
 
 
 func _on_body_hit_box() -> void:
 	var projectile := projectile_scene.instantiate()
 	projectile.position = $BodyMarker2D.position
-	add_child(projectile)
+	add_child(projectile) # add here since hit_box on ready
+	projectile.amount = %BodyHitBoxAmount.value
+	projectile.action = Health.Action.DAMAGE
+	
 
 
 func _restart_timer(timer: Timer) -> void:
@@ -83,14 +92,14 @@ func _on_body_timeout() -> void:
 
 func _on_heal_pressed() -> void:
 	$Player.health.heal(%HealAmount.value)
+	
+
+func _on_player_damaged(_entity: Node, amount: int, applied: int, multiplier: float) -> void:
+	%LastAction.text = "DAMAGE amount=%d applied=%d multiplier=%0.1f" % [amount, applied, multiplier]
 
 
-func _on_player_damaged(_entity: Node, amount: int, applied: int) -> void:
-	%LastAction.text = "DAMAGE amount=%d applied=%d" % [amount, applied]
-
-
-func _on_player_healed(_entity: Node, amount: int, applied: int) -> void:
-	%LastAction.text = "HEAL amount=%d applied=%d" % [amount, applied]
+func _on_player_healed(_entity: Node, amount: int, applied: int, multiplier: float) -> void:
+	%LastAction.text = "HEAL amount=%d applied=%d multiplier=%0.1f" % [amount, applied, multiplier]
 
 
 func _on_player_died(_player: Node) -> void:

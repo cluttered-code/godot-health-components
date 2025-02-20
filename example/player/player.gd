@@ -15,9 +15,9 @@ func update_health_bar() -> void:
 	health_bar.set_value_no_signal(health.percent())
 
 
-func _on_damaged(_entity: Node, _amount: int, _applied: int) -> void:
+func _on_damaged(_entity: Node, _amount: int, _applied: int, _multiplier: float) -> void:
 	update_health_bar()
 
 
-func _on_healed(_entity: Node, _amount: int, _applied: int) -> void:
+func _on_healed(_entity: Node, _amount: int, _applied: int, _multiplier: float) -> void:
 	update_health_bar()

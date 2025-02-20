@@ -9,12 +9,12 @@ class_name Health extends Node
 enum Action { DAMAGE, HEAL }
 
 ## Emitted after damage is applied.
-signal damaged(entity: Node, amount: int, applied: int)
+signal damaged(entity: Node, amount: int, applied: int, multiplier: float)
 ## Emitted after damage is applied when death has occured.
 signal died(entity: Node)
 
 ## Emitted after healing is applied.
-signal healed(entity: Node, amount: int, applied: int)
+signal healed(entity: Node, amount: int, applied: int, multiplier: float)
 ## Emitted after healing is applied when dead.
 signal revived(entity: Node)
 
@@ -120,7 +120,7 @@ func fill_health() -> void:
 
 
 ## Apply the specified amount of damage if damageable and not dead.
-func damage(amount: int) -> void:
+func damage(amount: int, multiplier: float = 1.0) -> void:
 	if not damageable:
 		print_debug("%s cannot be damaged" % entity)
 		not_damageable.emit(entity)
@@ -131,7 +131,7 @@ func damage(amount: int) -> void:
 		already_dead.emit(entity)
 		return
 	
-	var applied := clampi(amount, 0, current)
+	var applied := clampi(roundi(amount * multiplier), 0, current)
 	if applied == current and not killable:
 		print_debug("%s is not killable" % entity)
 		not_killable.emit(entity)
@@ -139,8 +139,8 @@ func damage(amount: int) -> void:
 
 	var is_first_hit := is_full() and applied > 0
 	current -= applied
-	print_debug("%s damaged amount=%d applied=%d current=%d" % [entity, amount, applied, current])
-	damaged.emit(entity, amount, applied)
+	print_debug("%s damaged amount=%d multiplier=%0.4f applied=%d current=%d" % [entity, amount, multiplier, applied, current])
+	damaged.emit(entity, amount, applied, multiplier)
 	
 	if is_first_hit:
 		print_debug("%s first hit" % entity)
@@ -152,7 +152,7 @@ func damage(amount: int) -> void:
 
 
 ## apply the specified amount of healing if healable, not full, or dead and revivable.
-func heal(amount: int) -> void:
+func heal(amount: int, multiplier: float = 1.0) -> void:
 	if not healable:
 		print_debug("%s is not healable" % entity)
 		not_healable.emit(entity)
@@ -170,10 +170,10 @@ func heal(amount: int) -> void:
 	
 	var notify_revived := is_dead() and amount > 0
 	
-	var applied := clampi(amount, 0, max - current)
+	var applied := clampi(roundi(amount * multiplier), 0, max - current)
 	current += applied
-	print_debug("%s healed amount=%d applied=%d current=%d" % [entity, amount, applied, current])
-	healed.emit(entity, amount, applied)
+	print_debug("%s healed amount=%d multiplier=%0.4f applied=%d current=%d" % [entity, amount, multiplier, applied, current])
+	healed.emit(entity, amount, applied, multiplier)
 	
 	if current == max and applied > 0:
 		print_debug("%s has full health" % entity)
