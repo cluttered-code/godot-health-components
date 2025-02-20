@@ -55,8 +55,8 @@
 2. Add a `HurtBox2D` node with a `CollisionShape2D` to the same Node.
 3. Set the `HurtBox2D` collision layer.
 4. `HitBox2D` or `HitScan2D`
-    - Create a projectile or melee weapon with a `HitBox2D` and set the collision mask to the same layer as the `HurtBox2D` collision layer. This will automatically apply damage and healing.
-    - Create a gun with a `HitScan2D` extending from the barrel and set the collision mask to the same layer as the `HurtBox2D` collision layer. `fire()` needs to be called on the `HitScan2D` to apply damage and healing.
+	- Create a projectile or melee weapon with a `HitBox2D` and set the collision mask to the same layer as the `HurtBox2D` collision layer. This will automatically apply damage and healing.
+	- Create a gun with a `HitScan2D` extending from the barrel and set the collision mask to the same layer as the `HurtBox2D` collision layer. `fire()` needs to be called on the `HitScan2D` to apply damage and healing.
 
 ## Issues
 

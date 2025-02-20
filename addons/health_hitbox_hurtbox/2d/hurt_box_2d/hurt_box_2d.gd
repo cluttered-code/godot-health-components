@@ -30,15 +30,14 @@ func damage(amount: int) -> void:
 		push_error("%s is missing a 'Health' component" % self)
 		return
 	
-	amount = roundi(amount * damage_multiplier)
-	if amount == 0:
+	if roundi(amount * damage_multiplier) == 0:
 		return
 	
 	if heal_on_damage:
-		health.heal(amount)
+		health.heal(amount, damage_multiplier)
 		return
 	
-	health.damage(amount)
+	health.damage(amount, damage_multiplier)
 
 
 ## Calculates and applies healing to associated [Health].
@@ -48,15 +47,14 @@ func heal(amount: int) -> void:
 		push_error("%s is missing a 'Health' component" % self)
 		return
 	
-	amount = roundi(amount * heal_multiplier)
-	if amount == 0:
+	if roundi(amount * heal_multiplier) == 0:
 		return
 	
 	if damage_on_heal:
-		health.damage(amount)
+		health.damage(amount, heal_multiplier)
 		return
 	
-	health.heal(amount)
+	health.heal(amount, heal_multiplier)
 
 
 # Warn users if values haven't been configured.
