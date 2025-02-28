@@ -21,7 +21,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  unit-test:
+  unit-tests:
     runs-on: 'ubuntu-latest'
     permissions:
       actions: write
@@ -32,18 +32,35 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: 3
+      max-parallel: 5
       matrix:
         godot-version: ['4.3']
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
         with:
           lfs: true
-      - uses: MikeSchulze/gdunit4-action@v1.1.5
+
+      - name: Run GDUnit4 Tests
+        uses: MikeSchulze/gdunit4-action@v1.1.5
         with:
           version: "installed"
           godot-version: ${{ matrix.godot-version }}
           paths: 'res://test/'
           publish-report: false
+          warnings-as-errors: true
           report-name: unit-test-report-${{ matrix.godot-version }}
+
+  finalize:
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    name: "Final Results"
+    needs: [unit-tests]
+    steps:
+      - run: exit 1
+        if: >-
+          ${{
+                 contains(needs.*.result, 'failure')
+              || contains(needs.*.result, 'cancelled')
+          }}
