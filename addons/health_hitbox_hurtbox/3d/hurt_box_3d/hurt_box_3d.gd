@@ -1,5 +1,4 @@
 @tool
-@icon("res://addons/health_hitbox_hurtbox/3d/hurt_box_3d/hurt_box_3d.svg")
 class_name HurtBox3D extends Area3D
 ## HurtBox3D enables collision detection by [HitBox3D] or [HitScan3D] and applies affects to [Health].
 

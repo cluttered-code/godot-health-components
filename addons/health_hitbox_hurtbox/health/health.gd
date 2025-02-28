@@ -1,5 +1,3 @@
-@tool
-@icon("res://addons/health_hitbox_hurtbox/health/health.svg")
 class_name Health extends Node
 ## Health is used to track an entity's health, death, and revival.
 
@@ -74,19 +72,12 @@ const DEFAULT_MAX = 100
 
 
 @export_group("Advanced")
-## The entity sent in signals for association.[br][br]
-## Defaults to [color=orange]get_parent()[/color] inside [color=orange]_enter_tree()[/color]
-## if not specified.[br][br]
-## [color=orange]It is not advised to reparent a [Health] Node! Create a new one instead.[/color][br]
-## When reparenting set [color=orange]entity = null[/color] before it enters the tree again to
-## automatically assign the new parent. This can be manually set at anytime.
-@export var entity: Node
-
-
-func _enter_tree() -> void:
-	if entity:
-		return
-	entity = get_parent()
+## The entity this component is tracking health for,
+## sent in signals for association.[br][br]
+## Defaults to [color=orange]owner[/color].
+@export var entity: Node:
+	get():
+		return entity if entity else owner
 
 
 ## Returns [color=orange]true[/color] when not alive.

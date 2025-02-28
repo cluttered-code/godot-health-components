@@ -1,5 +1,4 @@
 @tool
-@icon("res://addons/health_hitbox_hurtbox/2d/hit_scan_2d/hit_scan_2d.svg")
 class_name HitScan2D extends RayCast2D
 ## HitScan2D interacts with [HurtBox2D] to affect [Health] components.
 
@@ -30,11 +29,12 @@ func _enter_tree() -> void:
 
 
 func _set(property: StringName, value: Variant) -> bool:
+	# allow setting anything in game
 	if not Engine.is_editor_hint():
 		return false
 	
-	## override default in editor
 	match property:
+		# force collide_with_area in editor
 		"collide_with_areas":
 			collide_with_areas = true
 		_:
@@ -68,4 +68,4 @@ func fire() -> void:
 
 
 ## Returns the object's class name as a [String].
-##func get_class() -> String: return "HitScan2D"
+func get_class() -> String: return "HitScan2D"

@@ -1,4 +1,4 @@
-@icon("res://addons/health_hitbox_hurtbox/3d/hit_scan_3d/hit_scan_3d.svg")
+@tool
 class_name HitScan3D extends RayCast3D
 ## HitScan3D interacts with [HurtBox3D] to affect [Health] components.
 
@@ -29,11 +29,12 @@ func _enter_tree() -> void:
 
 
 func _set(property: StringName, value: Variant) -> bool:
+	# allow setting anything in game
 	if not Engine.is_editor_hint():
 		return false
 	
-	## override default in editor
 	match property:
+		# force collide_with_area in editor
 		"collide_with_areas":
 			collide_with_areas = true
 		_:

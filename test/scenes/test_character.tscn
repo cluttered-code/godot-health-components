@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cs714ipo08kae"]
+
+[ext_resource type="Script" path="res://test/scenes/test_character.gd" id="1_bdu2t"]
+[ext_resource type="Script" path="res://addons/health_hitbox_hurtbox/health/health.gd" id="1_donpd"]
+
+[node name="TestCharacter" type="CharacterBody2D"]
+script = ExtResource("1_bdu2t")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Health" type="Node" parent="Node2D"]
+unique_name_in_owner = true
+script = ExtResource("1_donpd")
