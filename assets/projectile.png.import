@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b2aimahotvsyr"
-path="res://.godot/imported/projectile.png-b821b9d1b122cc8d4b93f3b8925ead00.ctex"
+path="res://.godot/imported/projectile.png-197bcbc76cb11b0c658014dfea4806d1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://example/projectile/projectile.png"
-dest_files=["res://.godot/imported/projectile.png-b821b9d1b122cc8d4b93f3b8925ead00.ctex"]
+source_file="res://assets/projectile.png"
+dest_files=["res://.godot/imported/projectile.png-197bcbc76cb11b0c658014dfea4806d1.ctex"]
 
 [params]
 
