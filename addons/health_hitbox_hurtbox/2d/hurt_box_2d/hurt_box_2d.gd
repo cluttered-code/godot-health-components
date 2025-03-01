@@ -64,7 +64,3 @@ func _get_configuration_warnings() -> PackedStringArray:
 		warnings.append("This node requires a 'Health' component")
 	
 	return warnings
-
-
-## Returns the object's class name as a [String].
-func get_class() -> String: return "HurtBox2D"

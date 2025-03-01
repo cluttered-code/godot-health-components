@@ -24,6 +24,7 @@ func test_fire_damage() -> void:
 	verify(mock_hurt_box, 0).heal(any_int())
 	
 	await assert_signal(signals).is_emitted("hurt_box_entered", [mock_hurt_box])
+	await assert_signal(signals).is_emitted("action_applied", [mock_hurt_box])
 
 
 func test_fire_heal() -> void:
@@ -37,6 +38,7 @@ func test_fire_heal() -> void:
 	verify(mock_hurt_box, 1).heal(10)
 	
 	await assert_signal(signals).is_emitted("hurt_box_entered", [mock_hurt_box])
+	await assert_signal(signals).is_emitted("action_applied", [mock_hurt_box])
 
 
 func test_fire_hit_box() -> void:
@@ -64,6 +66,7 @@ func test_fire_area3d() -> void:
 	
 	await assert_signal(signals).wait_until(50).is_not_emitted("hurt_box_entered", [any()])
 	await assert_signal(signals).wait_until(50).is_not_emitted("hit_box_entered", [any()])
+	await assert_signal(signals).wait_until(50).is_not_emitted("action_applied", [any()])
 
 
 func test_fire_null() -> void:
@@ -75,3 +78,4 @@ func test_fire_null() -> void:
 	await assert_signal(signals).wait_until(50).is_not_emitted("unknown_area_entered", [any()])
 	await assert_signal(signals).wait_until(50).is_not_emitted("hurt_box_entered", [any()])
 	await assert_signal(signals).wait_until(50).is_not_emitted("hit_box_entered", [any()])
+	await assert_signal(signals).wait_until(50).is_not_emitted("action_applied", [any()])

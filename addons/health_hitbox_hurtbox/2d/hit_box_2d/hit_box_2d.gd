@@ -2,10 +2,11 @@ class_name HitBox2D extends Area2D
 ## [HitBox2D] is associated with an object that can collide with a [HurtBox2D].
 
 ## emitted when collision with [HitBox2D] detected.
-## Can be used to detect collision with projectiles.
 signal hit_box_entered(hit_box: HitBox2D)
 ## emitted when collision with [HurtBox2D] detected.
 signal hurt_box_entered(hurt_box: HurtBox2D)
+## emitted after the action is applied to a [HurtBox2D].
+signal action_applied(hurt_box: HurtBox2D)
 ## emitted when collision with [Area2D] that isn't [HitBox2D] or [HurtBox2D].
 ## Can be using to detect things like environment.
 signal unknown_area_entered(area: Area2D)
@@ -41,18 +42,15 @@ func _on_area_entered(area: Area2D) -> void:
 		return
 	
 	var hurt_box: HurtBox2D = area
-	_hit_hurt_box(hurt_box)
 	hurt_box_entered.emit(hurt_box)
+	_apply_action(hurt_box)
+	action_applied.emit(hurt_box)
 
 
 ## Perfomes the [Health.Action] on the specified [HurtBox2D].
-func _hit_hurt_box(hurt_box: HurtBox2D) -> void:
+func _apply_action(hurt_box: HurtBox2D) -> void:
 	match action:
 		Health.Action.DAMAGE:
 			hurt_box.damage(amount)
 		Health.Action.HEAL:
 			hurt_box.heal(amount)
-
-
-## Returns the object's class name as a [String].
-func get_class() -> String: return "HitBox2D"

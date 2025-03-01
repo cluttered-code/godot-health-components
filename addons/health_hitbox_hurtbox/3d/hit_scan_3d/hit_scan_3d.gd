@@ -3,11 +3,11 @@ class_name HitScan3D extends RayCast3D
 ## HitScan3D interacts with [HurtBox3D] to affect [Health] components.
 
 ## emitted when collision with [HitBox3D] detected.
-## To cancel each other the [HitBox3D] will have to be [color=orange]queue_free()[/color]
-## from hear because collision detection is one sided.
 signal hit_box_entered(hit_box: HitBox3D)
 ## emitted when collision with [HurtBox3D] detected.
 signal hurt_box_entered(hurt_box: HurtBox3D)
+## emitted after the action is applied to a [HurtBox3D].
+signal action_applied(hurt_box: HurtBox3D)
 ## emitted when collision with [Area3D] that isn't [HitBox3D] or [HurtBox3D].
 ## Used to detect things like environment.
 signal unknown_area_entered(area: Area3D)
@@ -58,14 +58,15 @@ func fire() -> void:
 		return
 	
 	var hurt_box: HurtBox3D = collider
+	hurt_box_entered.emit(hurt_box)
+	_apply_action(hurt_box)
+	action_applied.emit(hurt_box)
+
+
+## Perfomes the [Health.Action] on the specified [HurtBox3D].
+func _apply_action(hurt_box: HurtBox3D) -> void:
 	match action:
 		Health.Action.DAMAGE:
 			hurt_box.damage(amount)
 		Health.Action.HEAL:
 			hurt_box.heal(amount)
-	
-	hurt_box_entered.emit(hurt_box)
-
-
-## Returns the object's class name as a [String].
-func get_class() -> String: return "HitScan3D"

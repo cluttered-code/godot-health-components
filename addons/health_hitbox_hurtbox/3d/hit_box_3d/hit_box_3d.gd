@@ -5,6 +5,8 @@ class_name HitBox3D extends Area3D
 signal hit_box_entered(hit_box: HitBox3D)
 ## emitted when collision with [HurtBox3D] detected.
 signal hurt_box_entered(hurt_box: HurtBox3D)
+## emitted after the action is applied to a [HurtBox3D].
+signal action_applied(hurt_box: HurtBox3D)
 ## emitted when collision with [Area3D] that isn't [HitBox3D] or [HurtBox3D].
 ## Can be using to detect things like environment.
 signal unknown_area_entered(area: Area3D)
@@ -40,18 +42,15 @@ func _on_area_entered(area: Area3D) -> void:
 		return
 	
 	var hurt_box: HurtBox3D = area
-	_hit_hurt_box(hurt_box)
 	hurt_box_entered.emit(hurt_box)
+	_apply_action(hurt_box)
+	action_applied.emit(hurt_box)
 
 
 ## Perfomes the [Health.Action] on the specified [HurtBox3D].
-func _hit_hurt_box(hurt_box: HurtBox3D) -> void:
+func _apply_action(hurt_box: HurtBox3D) -> void:
 	match action:
 		Health.Action.DAMAGE:
 			hurt_box.damage(amount)
 		Health.Action.HEAL:
 			hurt_box.heal(amount)
-
-
-## Returns the object's class name as a [String].
-func get_class() -> String: return "HitBox3D"

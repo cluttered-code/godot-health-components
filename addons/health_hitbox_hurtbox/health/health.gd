@@ -59,7 +59,6 @@ const DEFAULT_MAX = 100
 			# reduce current in game so it is not greater than max
 			current = mini(current, max)
 
-
 @export_group("Conditions")
 ## Enable if entity is capable of taking damage.
 @export var damageable: bool = true
@@ -173,7 +172,3 @@ func heal(amount: int, multiplier: float = 1.0) -> void:
 	if notify_revived:
 		print_debug("%s revived" % entity)
 		revived.emit(entity)
-
-
-## Returns the object's class name as a [String].
-func get_class() -> String: return "Health"
