@@ -53,6 +53,19 @@ func test_fire_hit_box() -> void:
 	await assert_signal(signals).is_emitted("hit_box_entered", [hit_box])
 
 
+func test_fire_hit_box_ignore() -> void:
+	var hit_box: HitBox3D = auto_free(HitBox3D.new())
+	hit_box.ignore_collisions = true
+	hit_scan._collider = hit_box
+	
+	hit_scan.fire()
+	
+	verify(mock_hurt_box, 0).damage(any_int())
+	verify(mock_hurt_box, 0).heal(any_int())
+	
+	await assert_signal(signals).wait_until(50).is_not_emitted("hit_box_entered", [any()])
+
+
 func test_fire_area3d() -> void:
 	var area: Area3D = auto_free(Area3D.new())
 	hit_scan._collider = area

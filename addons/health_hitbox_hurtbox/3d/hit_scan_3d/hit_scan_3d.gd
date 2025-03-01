@@ -50,6 +50,9 @@ func fire() -> void:
 		return
 	
 	if collider is HitBox3D:
+		var hit_box: HitBox3D = collider
+		if hit_box.ignore_collisions:
+			return
 		hit_box_entered.emit(collider)
 		return
 	

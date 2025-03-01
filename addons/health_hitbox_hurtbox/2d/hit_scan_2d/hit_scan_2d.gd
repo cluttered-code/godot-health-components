@@ -50,6 +50,9 @@ func fire() -> void:
 		return
 	
 	if collider is HitBox2D:
+		var hit_box: HitBox2D = collider
+		if hit_box.ignore_collisions:
+			return
 		hit_box_entered.emit(collider)
 		return
 	
