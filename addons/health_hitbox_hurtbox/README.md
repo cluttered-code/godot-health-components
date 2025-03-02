@@ -13,6 +13,19 @@
 
 Check out the [Wiki](https://github.com/cluttered-code/godot-health-hitbox-hurtbox/wiki) for Documentation and tutorials!
 
+## Process and Data Flow
+```mermaid
+flowchart LR
+  HitBox
+  HitScan
+  HurtBox
+  Health
+
+  HitBox -- detect collision and send **amount** --> HurtBox
+  HitScan -- detect collision and send **amount** --> HurtBox
+  HurtBox -- send **amount** and **multiplier** --> Health
+```
+
 ## ![Health](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/addons/health_hitbox_hurtbox/health/health.svg) Health
 
 `Health` component tracks an entity's health and emits signals for various health realted changes.
