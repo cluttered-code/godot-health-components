@@ -9,6 +9,10 @@
 [![Live Example](https://img.shields.io/badge/Live_Example-itch.io-fa5c5c)](https://cluttered-code.itch.io/godot-health-hitbox-hurtbox-hitscan)
 [![ko-fi](https://img.shields.io/badge/Support%20on-ko--fi-ff5e5b?logo=ko-fi)](https://ko-fi.com/clutteredcode)
 
+## Documentation
+
+Check out the [Wiki](https://github.com/cluttered-code/godot-health-hitbox-hurtbox/wiki) for Documentation and tutorials!
+
 ## ![Health](https://raw.githubusercontent.com/cluttered-code/godot-health-hitbox-hurtbox/refs/heads/main/addons/health_hitbox_hurtbox/health/health.svg) Health
 
 `Health` component tracks an entity's health and emits signals for various health realted changes.
